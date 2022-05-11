@@ -3,10 +3,51 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ChatClient"
+        xmlns:extToolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:local="clr-namespace:ChatClient" d:DataContext="{d:DesignInstance Type=local:ApplicationViewModel}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="450" Width="800"
+        UseLayoutRounding="True">
+    <Grid ShowGridLines="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition />
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="70" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+        <ListBox Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" 
+                 ItemsSource="{Binding Friends}"
+                 SelectedItem="{Binding SelectedFriend}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Path=Name}" />
+                        <TextBlock Text="{Binding Path=LastSeen}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
+        <StackPanel Grid.Column="2" Grid.Row="1">
+            <TextBlock Text="message" />
+        </StackPanel>
+        
+        
+        <DockPanel x:Name="SendPanel" Grid.Column="2" Grid.Row="2" LastChildFill="True">
+            <Button  FontSize="20"
+                     Width="{Binding ActualHeight, ElementName=SendPanel}"
+                     DockPanel.Dock="Right">
+                <Image Source="Data\Screenshot_1.png" 
+                       RenderOptions.EdgeMode="Aliased"
+                       RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+            </Button>
+                    <extToolkit:WatermarkTextBox FontSize="20"
+                                         Watermark="Write a message..."
+                                         />
+        </DockPanel>
     </Grid>
 </Window>
