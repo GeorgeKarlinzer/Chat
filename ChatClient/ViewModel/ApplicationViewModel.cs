@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChatClient
+namespace ChatClient.ViewModel
 {
     internal class ApplicationViewModel : INotifyPropertyChanged
     {
@@ -17,10 +17,8 @@ namespace ChatClient
 
         public ApplicationViewModel()
         {
-            Friends = new ObservableCollection<User>()
-            {
-                new User(){Id=0, Name="Tom", LastSeen=DateTime.Now, ProfileImage=null},
-            };
+            var localDL = new LocalDataLoader();
+            Friends = new(localDL.GetFriends(null));
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

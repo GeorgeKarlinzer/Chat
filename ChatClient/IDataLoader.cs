@@ -8,6 +8,7 @@ namespace ChatClient
 {
     internal interface IDataLoader
     {
-
+        List<User> GetFriends(User user);
+        List<Message> GetMessages(User user1, User user2);
     }
 }

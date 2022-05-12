@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChatClient
+namespace ChatClient.ViewModel
 {
-    public class Friend
+    internal class LoginViewModel
     {
-        public int UserId_1 { get; set; }
-        public int UserId_2 { get; set; }
+
     }
 }

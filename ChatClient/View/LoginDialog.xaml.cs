@@ -10,22 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ChatClient.ViewModel;
 
-namespace ChatClient
+namespace ChatClient.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for LoginDialog.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class LoginDialog : Window
     {
-        public MainWindow()
+        public LoginDialog()
         {
             InitializeComponent();
-
-            DataContext = new ApplicationViewModel();
         }
     }
 }
