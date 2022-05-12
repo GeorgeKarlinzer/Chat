@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ChatClient.ViewModel;
 
 namespace ChatClient.View
 {
@@ -22,6 +23,8 @@ namespace ChatClient.View
         public LoginDialog()
         {
             InitializeComponent();
+
+            DataContext = new LoginViewModel(new LocalDataLoader(), this);
         }
     }
 }
