@@ -73,7 +73,7 @@
                         <TextBlock Visibility="Hidden" Text="{Binding Path=SenderId}" />
                         <TextBlock Visibility="Hidden" Text="{Binding Path=ReceiverId}" />
                         <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Path=Date}" />
-                        <TextBox IsReadOnly="True" Background="AliceBlue" TextWrapping="Wrap" MaxWidth="200" Grid.Column="0" Grid.Row="0" FontSize="20" Text="{Binding Path=Text, Mode=OneWay}"/>
+                        <TextBox MaxLength="10000" BorderThickness="0" IsReadOnly="True" Background="AliceBlue" TextWrapping="Wrap" MaxWidth="400" Grid.Column="0" Grid.Row="0" FontSize="20" Text="{Binding Path=Text, Mode=OneWay}"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -92,6 +92,7 @@
             <extToolkit:WatermarkTextBox FontSize="20"
                                          Watermark="Write a message..."
                                          x:Name="currentMessage"
+                                         TextWrapping="Wrap"
                                          >
                 <extToolkit:WatermarkTextBox.InputBindings>
                     <KeyBinding Key="Return"

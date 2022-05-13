@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using ChatData;
 using System.Windows;
 using System.Windows.Controls;
+using System.Configuration;
 
 namespace ChatClient.ViewModel
 {
@@ -42,15 +43,34 @@ namespace ChatClient.ViewModel
         private RelayCommand sendCommand;
         public RelayCommand SendCommand => sendCommand ??= new(obj =>
         {
+            var maxMessageLength = int.Parse(ConfigurationManager.AppSettings.Get("MaxMessageLength"));
+            
             var message = new Message
             {
                 Text = ((TextBox)obj).Text,
                 SenderId = SessionContext.Instance.CurrentUser.Id,
                 ReceiverId = SelectedFriend.Id
             };
+
+            message.Text = message.Text.Trim();
+
+            while (message.Text.Length > maxMessageLength)
+            {
+                var newMessage = new Message();
+                newMessage.SenderId = message.SenderId;
+                newMessage.ReceiverId = message.ReceiverId;
+                newMessage.Date = message.Date;
+                newMessage.Text = message.Text[..maxMessageLength];
+                message.Text = message.Text[maxMessageLength..];
+
+                dataLoader.SendMessage(newMessage);
+                Messages.Add(newMessage);
+            }
+
             dataLoader.SendMessage(message);
-            ((TextBox)obj).Text = string.Empty;
             Messages.Add(message);
+            
+            ((TextBox)obj).Text = string.Empty;
         }, obj => !string.IsNullOrEmpty(((TextBox)obj).Text));
 
         private RelayCommand loadMessageCommand;
