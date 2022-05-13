@@ -32,7 +32,7 @@
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
         <ListBox Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" 
-                 ItemsSource="{Binding Friends}"
+                 ItemsSource="{Binding VisibleFriends}"
                  SelectedItem="{Binding SelectedFriend}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -44,14 +44,38 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <TextBlock Grid.Row="0" FontSize="30" FontWeight="Bold" TextAlignment="Center" Grid.Column="2" Text="{Binding SelectedFriend.Name}" />
+        
+        
+        <!-- Col 0 Row 0 -->
+        <TextBlock Grid.Row="0" 
+                   FontSize="30" 
+                   FontWeight="Bold" 
+                   TextAlignment="Center" 
+                   Grid.Column="2" 
+                   Text="{Binding SelectedFriend.Name}" />
 
+        
+        
+        <!-- Col 1 Row 0 -->
+        <StackPanel VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="0">
+            <extToolkit:WatermarkTextBox x:Name="SearchPattern" Watermark="Find a friend..." BorderThickness="0">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="TextChanged">
+                        <i:InvokeCommandAction Command="{Binding SearchFriend}"
+                                                       CommandParameter="{Binding Text, ElementName=SearchPattern}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </extToolkit:WatermarkTextBox>
+        </StackPanel>
+            
+        
+        
+        <!-- Col 2 Row 1 -->
         <ListBox Grid.Column="2" Grid.Row="1"
                  ItemsSource="{Binding Messages}"
                  HorizontalContentAlignment="Stretch"
                  ItemContainerStyle="{StaticResource UnselectableList}"
                  ScrollViewer.CanContentScroll="False">
-
             <ListBox.ItemTemplate >
                 <DataTemplate>
                     <Grid Name="messagePanel" >
@@ -73,15 +97,28 @@
                         <TextBlock Visibility="Hidden" Text="{Binding Path=SenderId}" />
                         <TextBlock Visibility="Hidden" Text="{Binding Path=ReceiverId}" />
                         <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Path=Date}" />
-                        <TextBox MaxLength="10000" BorderThickness="0" IsReadOnly="True" Background="AliceBlue" TextWrapping="Wrap" MaxWidth="400" Grid.Column="0" Grid.Row="0" FontSize="20" Text="{Binding Path=Text, Mode=OneWay}"/>
+                        <TextBox MaxLength="10000" 
+                                 BorderThickness="0"
+                                 IsReadOnly="True" 
+                                 Background="AliceBlue" 
+                                 TextWrapping="Wrap" 
+                                 MaxWidth="400"
+                                 Grid.Column="0"
+                                 Grid.Row="0" 
+                                 FontSize="20" 
+                                 Text="{Binding Path=Text, Mode=OneWay}"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <StackPanel Grid.Column="2" Grid.Row="1">
 
-        </StackPanel>
-        <DockPanel x:Name="SendPanel" Grid.Column="2" Grid.Row="2" LastChildFill="True">
+        
+        
+        <!-- Col 2 Row 2 -->
+        <DockPanel x:Name="SendPanel" 
+                   Grid.Column="2"
+                   Grid.Row="2"
+                   LastChildFill="True">
             <Button  FontSize="20"
                      Width="{Binding ActualHeight, ElementName=SendPanel}"
                      DockPanel.Dock="Right"

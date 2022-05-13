@@ -19,7 +19,8 @@ namespace ChatClient.ViewModel
         private IDataLoader dataLoader;
         private User selectedFriend;
 
-        public ObservableCollection<User> Friends { get; set; }
+        private List<User> friends;
+        public ObservableCollection<User> VisibleFriends { get; set; }
 
         public ObservableCollection<Message> Messages { get; set; }
 
@@ -71,7 +72,22 @@ namespace ChatClient.ViewModel
             Messages.Add(message);
             
             ((TextBox)obj).Text = string.Empty;
-        }, obj => !string.IsNullOrEmpty(((TextBox)obj).Text));
+        }, obj => !string.IsNullOrEmpty(((TextBox)obj).Text.Trim()));
+
+        private RelayCommand searchFriend;
+        public RelayCommand SearchFriend => searchFriend ??= new(obj =>
+        {
+            var pattern = (string)obj;
+
+            var friendsToShow = friends.Where(x => x.Name.Contains(pattern));
+
+            VisibleFriends.Clear();
+
+            foreach (var friend in friendsToShow)
+            {
+                VisibleFriends.Add(friend);
+            }
+        });
 
         private RelayCommand loadMessageCommand;
         public RelayCommand LoadMessageCommand => loadMessageCommand ??= new(obj =>
@@ -100,9 +116,10 @@ namespace ChatClient.ViewModel
             }
 
             this.dataLoader = dataLoader;
-            Friends = new(this.dataLoader.GetFriends(SessionContext.Instance.CurrentUser));
+            friends = this.dataLoader.GetFriends(SessionContext.Instance.CurrentUser);
+            VisibleFriends = new(friends);
             Messages = new();
-            SelectedFriend = Friends.FirstOrDefault();
+            SelectedFriend = VisibleFriends.FirstOrDefault();
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
