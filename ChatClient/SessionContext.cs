@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ChatClient.Dto;
+using ChatData;
 
 namespace ChatClient
 {
@@ -12,9 +12,8 @@ namespace ChatClient
     {
         private static SessionContext instance;
         public static SessionContext Instance => instance??= new SessionContext();
-
         private SessionContext() { }
-        
+
         public User CurrentUser { get; set; }
     }
 }

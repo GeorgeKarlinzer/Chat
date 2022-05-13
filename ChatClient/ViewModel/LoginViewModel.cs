@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using ChatClient.Dto;
+using ChatData;
 
 namespace ChatClient.ViewModel
 {
@@ -39,6 +39,8 @@ namespace ChatClient.ViewModel
         private RelayCommand loginCommand;
         public RelayCommand LoginCommand => loginCommand ??= new(obj =>
         {
+            // TODO: Custom DateTime TextBlock
+
             // TODO: Remove
             credentials.UserName = "Rick123";
             // 

@@ -7,11 +7,19 @@
         xmlns:local="clr-namespace:ChatClient"
         xmlns:viewModels="clr-namespace:ChatClient.ViewModel"
         xmlns:views="clr-namespace:ChatClient.View"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         d:DataContext="{d:DesignInstance Type=viewModels:ApplicationViewModel}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
-        UseLayoutRounding="True">
+        UseLayoutRounding="True"
+        Name="LayoutRoot">
 
+    <Window.Resources>
+        <Style TargetType="{x:Type ListBoxItem}" x:Key="UnselectableList">
+            <Setter Property="Focusable" Value="False" />
+        </Style>
+    </Window.Resources>
+    
     <Grid ShowGridLines="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
@@ -30,26 +38,67 @@
                 <DataTemplate>
                     <StackPanel>
                         <TextBlock Text="{Binding Path=Name}" />
-                        <TextBlock Text="{Binding Path=LastSeen}" />
+                        <TextBlock Text="{Binding Path=LastSeen, StringFormat='{}{0:dd/MM/yyyy HH:mm:ss}'}" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
+        <TextBlock Grid.Row="0" FontSize="30" FontWeight="Bold" TextAlignment="Center" Grid.Column="2" Text="{Binding SelectedFriend.Name}" />
+
+        <ListBox Grid.Column="2" Grid.Row="1"
+                 ItemsSource="{Binding Messages}"
+                 HorizontalContentAlignment="Stretch"
+                 ItemContainerStyle="{StaticResource UnselectableList}"
+                 ScrollViewer.CanContentScroll="False">
+
+            <ListBox.ItemTemplate >
+                <DataTemplate>
+                    <Grid Name="messagePanel" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Loaded">
+                                <i:InvokeCommandAction Command="{Binding Path=DataContext.LoadMessageCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                                                       CommandParameter="{Binding ElementName=messagePanel}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        
+                        <TextBlock Visibility="Hidden" Text="{Binding Path=SenderId}" />
+                        <TextBlock Visibility="Hidden" Text="{Binding Path=ReceiverId}" />
+                        <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Path=Date}" />
+                        <TextBox IsReadOnly="True" Background="AliceBlue" TextWrapping="Wrap" MaxWidth="200" Grid.Column="0" Grid.Row="0" FontSize="20" Text="{Binding Path=Text, Mode=OneWay}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
         <StackPanel Grid.Column="2" Grid.Row="1">
-            <TextBlock Text="message" />
+
         </StackPanel>
         <DockPanel x:Name="SendPanel" Grid.Column="2" Grid.Row="2" LastChildFill="True">
             <Button  FontSize="20"
                      Width="{Binding ActualHeight, ElementName=SendPanel}"
-                     DockPanel.Dock="Right">
-                <Image Source="Data\Screenshot_1.png" 
-                       RenderOptions.EdgeMode="Aliased"
-                       RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+                     DockPanel.Dock="Right"
+                     Command="{Binding SendCommand}"
+                     CommandParameter="{Binding ElementName=currentMessage}"
+                     Content="Send">
             </Button>
             <extToolkit:WatermarkTextBox FontSize="20"
                                          Watermark="Write a message..."
-                                         />
+                                         x:Name="currentMessage"
+                                         >
+                <extToolkit:WatermarkTextBox.InputBindings>
+                    <KeyBinding Key="Return"
+                                Command="{Binding SendCommand}"
+                                CommandParameter="{Binding ElementName=currentMessage}"/>
+                </extToolkit:WatermarkTextBox.InputBindings>
+            </extToolkit:WatermarkTextBox>
         </DockPanel>
     </Grid>
 </Window>

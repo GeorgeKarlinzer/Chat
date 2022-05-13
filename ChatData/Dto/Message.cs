@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChatClient.Dto
+namespace ChatData
 {
     public class Message
     {
@@ -12,6 +12,6 @@ namespace ChatClient.Dto
         public int SenderId { get; set; }
         public int ReceiverId { get; set; }
         public string Text { get; set; }
-        public DateTime Time { get; set; }
+        public DateTime Date { get; set; }
     }
 }
