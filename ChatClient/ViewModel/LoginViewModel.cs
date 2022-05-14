@@ -40,10 +40,12 @@ namespace ChatClient.ViewModel
         public RelayCommand LoginCommand => loginCommand ??= new(obj =>
         {
             // TODO: Custom DateTime TextBlock
+            // TODO: Logout button
+            // TODO: Sing in button
+            // TODO: Add friend button
+            // TODO: Update user's messages, when someone send to him
+            // TODO: Add images
 
-            // TODO: Remove
-            credentials.UserName = "Rick123";
-            // 
             SessionContext.Instance.CurrentUser = dataLoader.Login(credentials);
             if (SessionContext.Instance.CurrentUser != null)
                 dialog.DialogResult = true;

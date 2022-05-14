@@ -17,7 +17,7 @@ namespace ChatClient
         public List<User> GetFriends(User user)
         {
             var friends = new List<User>();
-            var queryString = $"SELECT Id, Name, LastSeen FROM Users WHERE Id IN(SELECT UserId_1 FROM Friends WHERE UserId_2 = 1) OR Id IN(SELECT UserId_2 FROM Friends WHERE UserId_1 = 1)";
+            var queryString = $"SELECT Id, Name, LastSeen FROM Users WHERE Id IN(SELECT UserId_1 FROM Friends WHERE UserId_2 = ${user.Id}) OR Id IN(SELECT UserId_2 FROM Friends WHERE UserId_1 = {user.Id})";
             using var sqlConnection = new SqlConnection(connectionString);
 
             var sqlCommand = new SqlCommand(queryString, sqlConnection);

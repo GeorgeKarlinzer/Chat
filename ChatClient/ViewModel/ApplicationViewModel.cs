@@ -31,10 +31,8 @@ namespace ChatClient.ViewModel
             {
                 if (selectedFriend != value && value != null)
                 {
-                    Messages.Clear();
-                    var messages = dataLoader.GetMessages(value, SessionContext.Instance.CurrentUser);
-                    foreach (var message in messages)
-                        Messages.Add(message);
+                    List<Message> messages = dataLoader.GetMessages(value, SessionContext.Instance.CurrentUser);
+                    Messages.Fill(messages);
                 }
                 selectedFriend = value;
                 OnPropertyChanged(nameof(SelectedFriend));
@@ -45,7 +43,7 @@ namespace ChatClient.ViewModel
         public RelayCommand SendCommand => sendCommand ??= new(obj =>
         {
             var maxMessageLength = int.Parse(ConfigurationManager.AppSettings.Get("MaxMessageLength"));
-            
+
             var message = new Message
             {
                 Text = ((TextBox)obj).Text,
@@ -70,7 +68,7 @@ namespace ChatClient.ViewModel
 
             dataLoader.SendMessage(message);
             Messages.Add(message);
-            
+
             ((TextBox)obj).Text = string.Empty;
         }, obj => !string.IsNullOrEmpty(((TextBox)obj).Text.Trim()));
 
@@ -81,12 +79,8 @@ namespace ChatClient.ViewModel
 
             var friendsToShow = friends.Where(x => x.Name.Contains(pattern));
 
-            VisibleFriends.Clear();
+            VisibleFriends.Fill(friendsToShow);
 
-            foreach (var friend in friendsToShow)
-            {
-                VisibleFriends.Add(friend);
-            }
         });
 
         private RelayCommand loadMessageCommand;
@@ -103,22 +97,32 @@ namespace ChatClient.ViewModel
                 }
         });
 
+        private RelayCommand logoutCommand;
+        public RelayCommand LogoutCommand => logoutCommand ??= new(obj =>
+        {
+            SessionContext.Instance.CurrentUser = null;
+            TryLogin();
+        });
+
         public ApplicationViewModel(IDataLoader dataLoader)
         {
-            if (SessionContext.Instance.CurrentUser == null)
+            this.dataLoader = dataLoader;
+            Messages = new();
+            VisibleFriends = new();
+
+            TryLogin();
+        }
+
+        private void TryLogin()
+        {
+            if (!new LoginDialog().ShowDialog() == true)
             {
-                var loginDialog = new LoginDialog();
-                if (loginDialog.ShowDialog() == false)
-                {
-                    Application.Current.Shutdown();
-                    return;
-                }
+                Application.Current.Shutdown();
+                return;
             }
 
-            this.dataLoader = dataLoader;
             friends = this.dataLoader.GetFriends(SessionContext.Instance.CurrentUser);
-            VisibleFriends = new(friends);
-            Messages = new();
+            VisibleFriends.Fill(friends);
             SelectedFriend = VisibleFriends.FirstOrDefault();
         }
 
