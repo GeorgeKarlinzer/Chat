@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ChatData;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using ChatData;
 
 namespace ChatClient.ViewModel
 {
@@ -26,7 +21,7 @@ namespace ChatClient.ViewModel
             }
         }
 
-        public string Password
+        public byte[] Password
         {
             get => credentials.PasswordHash;
             set
