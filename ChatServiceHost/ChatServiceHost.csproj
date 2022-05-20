@@ -70,5 +70,15 @@
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ChatData\ChatData.csproj">
+      <Project>{ef6da2e4-29ff-455c-9bac-d46d1ca713d3}</Project>
+      <Name>ChatData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChatWCF\ChatWCFService.csproj">
+      <Project>{c506312a-063c-424f-99d9-fb98c3496d15}</Project>
+      <Name>ChatWCFService</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

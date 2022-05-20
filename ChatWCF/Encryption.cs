@@ -6,43 +6,43 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 
-/// <summary>
-/// Summary description for Encryption
-/// </summary>
-public class Encryption
+namespace ChatWCFService
 {
-    public const int saltByteLength = 32;
-
-    public byte[] GenerateSalt()
+    public class Encryption
     {
-        var salt = new byte[saltByteLength];
-        var random = new Random();
+        public const int saltByteLength = 32;
 
-        for (int i = 0; i < saltByteLength; i++)
+        public byte[] GenerateSalt()
         {
-            salt[i] = (byte)random.Next(0, 256);
+            var salt = new byte[saltByteLength];
+            var random = new Random();
+
+            for (int i = 0; i < saltByteLength; i++)
+            {
+                salt[i] = (byte)random.Next(0, 256);
+            }
+
+            return salt;
         }
 
-        return salt;
-    }
+        public byte[] ComputeSaltedHash(string text, byte[] salt)
+        {
+            if (salt.Length != saltByteLength)
+                throw new Exception("Wrong salt length");
 
-    public byte[] ComputeSaltedHash(string text, byte[] salt)
-    {
-        if (salt.Length != saltByteLength)
-            throw new Exception("Wrong salt length");
+            var sha256 = SHA256.Create();
 
-        var sha256 = SHA256.Create();
+            var hash = sha256.ComputeHash(Encoding.ASCII.GetBytes(text));
 
-        var hash = sha256.ComputeHash(Encoding.ASCII.GetBytes(text));
+            var bitHash = new BitArray(hash);
+            var bitSalt = new BitArray(salt);
 
-        var bitHash = new BitArray(hash);
-        var bitSalt = new BitArray(salt);
+            var saltedBitHash = bitHash.Xor(bitSalt);
+            var saltedHash = new byte[saltByteLength];
 
-        var saltedBitHash = bitHash.Xor(bitSalt);
-        var saltedHash = new byte[saltByteLength];
+            saltedBitHash.CopyTo(saltedHash, 0);
 
-        saltedBitHash.CopyTo(saltedHash, 0);
-
-        return saltedHash;
+            return saltedHash;
+        }
     }
 }

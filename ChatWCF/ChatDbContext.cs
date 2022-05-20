@@ -1,26 +1,29 @@
 ﻿using ChatData;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Web;
+using System.ServiceModel;
 
-/// <summary>
-/// Summary description for ChatDbContext
-/// </summary>
-public class ChatDbContext : DbContext
+namespace ChatWCFService
 {
-    public DbSet<User> Users { get; set; }
-    public DbSet<Friend> Friends { get; set; }
-    public DbSet<Message> Messages { get; set; }
-    public DbSet<UserCredentials> UserCredentials { get; set; }
-
-
-    public ChatDbContext()
+    public class ChatDbContext : DbContext
     {
-        string connectionString = System.Configuration.ConfigurationManager.
-            ConnectionStrings["defaultConnection"].ConnectionString;
+        public DbSet<User> Users { get; set; }
+        public DbSet<Friend> Friends { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<UserCredentials> UserCredentials { get; set; }
 
-        Database.Connection.ConnectionString = connectionString;
+
+        public ChatDbContext()
+        {
+            string connectionString = System.Configuration.ConfigurationManager.
+                ConnectionStrings["defaultConnection"].ConnectionString;
+
+            Database.Connection.ConnectionString = connectionString;
+        }
+
+        public static implicit operator ChatDbContext(ServiceHost v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

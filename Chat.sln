@@ -14,7 +14,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatData", "ChatData\ChatDa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatServiceHost", "ChatServiceHost\ChatServiceHost.csproj", "{EA3D14F7-1353-4348-9373-1B178D92ADE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatWCF", "ChatWCF\ChatWCF.csproj", "{C506312A-063C-424F-99D9-FB98C3496D15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatWCFService", "ChatWCF\ChatWCFService.csproj", "{C506312A-063C-424F-99D9-FB98C3496D15}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
