@@ -4,10 +4,10 @@ using System.ServiceProcess;
 
 namespace ChatServiceHost
 {
-    public partial class ChatService : ServiceBase
+    public partial class Service1 : ServiceBase
     {
         ServiceHost host;
-        public ChatService()
+        public Service1()
         {
             InitializeComponent();
         }

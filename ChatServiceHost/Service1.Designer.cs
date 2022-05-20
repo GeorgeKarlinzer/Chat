@@ -1,6 +1,6 @@
 ﻿namespace ChatServiceHost
 {
-    partial class ChatService
+    partial class Service1
     {
         /// <summary> 
         /// Required designer variable.
