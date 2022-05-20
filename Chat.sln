@@ -15,6 +15,7 @@ EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "ChatWcfService", "ChatWcfService\", "{554FD67D-BB3B-47CF-BC81-E0DD17993256}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
+		ProjectReferences = "{ef6da2e4-29ff-455c-9bac-d46d1ca713d3}|ChatData.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_60806"
 		Debug.AspNetCompiler.PhysicalPath = "ChatWcfService\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_60806\"
@@ -34,10 +35,6 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "ChatWcfService", "ChatWcfSe
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatHostService", "ChatHostService\ChatHostService.csproj", "{071F1E7C-732C-4327-971D-3A91B463EB5B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatWcfContracts", "ChatWcfContracts\ChatWcfContracts.csproj", "{5BB584FA-20AD-440B-8E41-A17FA10CAB01}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,14 +53,6 @@ Global
 		{554FD67D-BB3B-47CF-BC81-E0DD17993256}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{554FD67D-BB3B-47CF-BC81-E0DD17993256}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{554FD67D-BB3B-47CF-BC81-E0DD17993256}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{071F1E7C-732C-4327-971D-3A91B463EB5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{071F1E7C-732C-4327-971D-3A91B463EB5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{071F1E7C-732C-4327-971D-3A91B463EB5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{071F1E7C-732C-4327-971D-3A91B463EB5B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5BB584FA-20AD-440B-8E41-A17FA10CAB01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5BB584FA-20AD-440B-8E41-A17FA10CAB01}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5BB584FA-20AD-440B-8E41-A17FA10CAB01}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5BB584FA-20AD-440B-8E41-A17FA10CAB01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

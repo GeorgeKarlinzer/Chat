@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChatData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -9,13 +10,23 @@ using System.Text;
 // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service" in code, svc and config file together.
 public class Service : IService
 {
-    public void Connect(string username, string password)
+    public List<User> GetFriends(User user)
     {
-        Console.WriteLine($"Username: {username}. Password {password}");
+        throw new NotImplementedException();
     }
 
-    public string GetResponse(string text)
+    public List<Message> GetMessages(User user1, User user2)
     {
-        return $"This is the response for {text}";
+        throw new NotImplementedException();
+    }
+
+    public User Login(string username, string password)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void SendMessage(Message message)
+    {
+        throw new NotImplementedException();
     }
 }

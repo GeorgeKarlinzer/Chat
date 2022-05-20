@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChatData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -9,31 +10,15 @@ using System.Text;
 [ServiceContract]
 public interface IService
 {
-
 	[OperationContract]
-	void Connect(string username, string password);
+	User Login(string username, string password);
 
-	[OperationContract]
-	string GetResponse(string text);
-}
+    [OperationContract]
+    void SendMessage(Message message);
 
-[DataContract]
-public class CompositeType
-{
-	bool boolValue = true;
-	string stringValue = "Hello ";
+    [OperationContract]
+    List<User> GetFriends(User user);
 
-	[DataMember]
-	public bool BoolValue
-	{
-		get { return boolValue; }
-		set { boolValue = value; }
-	}
-
-	[DataMember]
-	public string StringValue
-	{
-		get { return stringValue; }
-		set { stringValue = value; }
-	}
+    [OperationContract]
+    List<Message> GetMessages(User user1, User user2);
 }
