@@ -80,8 +80,11 @@ public class Service : IService
 
     public void SendMessage(Message message)
     {
+        var context = new ChatDbContext();
+
+        context.Messages.Add(message);
+        context.SaveChanges();
+
         // TODO: Add notifications
-
-
     }
 }
