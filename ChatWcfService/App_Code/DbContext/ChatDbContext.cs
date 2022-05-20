@@ -18,6 +18,9 @@ public class ChatDbContext : DbContext
 
     public ChatDbContext()
     {
+        string connectionString = System.Configuration.ConfigurationManager.
+            ConnectionStrings["defaultConnection"].ConnectionString;
 
+        Database.Connection.ConnectionString = connectionString;
     }
 }

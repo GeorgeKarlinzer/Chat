@@ -14,6 +14,9 @@ public interface IService
 	User Login(string username, string password);
 
     [OperationContract]
+    bool Register(string username, string password, string name, byte[] image);
+
+    [OperationContract]
     void SendMessage(Message message);
 
     [OperationContract]
