@@ -5,8 +5,8 @@ using System.ServiceModel;
 [ServiceContract]
 public interface IService
 {
-	[OperationContract]
-	User Login(string username, string password);
+    [OperationContract]
+    User Login(string username, string password);
 
     [OperationContract]
     bool Register(string username, string password, string name, byte[] image);

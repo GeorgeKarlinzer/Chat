@@ -2,8 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 
-// NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service" in code, svc and config file together.
 public class Service : IService
 {
     public List<User> GetFriends(User user)
@@ -38,7 +38,7 @@ public class Service : IService
 
         var credentials = context.UserCredentials.FirstOrDefault(x => x.UserName == username);
 
-        if(credentials == null)
+        if (credentials == null)
             return null;
 
         var encryption = new Encryption();
@@ -63,9 +63,9 @@ public class Service : IService
 
         byte[] saltedHash = encryption.ComputeSaltedHash(password, salt);
 
-        User newUser = context.Users.Add(new() { LastSeen = DateTime.Now, Name = name, ProfileImage = image });
+        User newUser = context.Users.Add(new User() { LastSeen = DateTime.Now, Name = name, ProfileImage = image });
 
-        context.UserCredentials.Add(new() { UserId = newUser.Id, UserName = username, PasswordHash = saltedHash, Salt = salt });
+        context.UserCredentials.Add(new UserCredentials() { UserId = newUser.Id, UserName = username, PasswordHash = saltedHash, Salt = salt });
 
         context.SaveChanges();
 
@@ -75,6 +75,8 @@ public class Service : IService
     public void SendMessage(Message message)
     {
         var context = new ChatDbContext();
+
+        message.Date = DateTime.Now;
 
         context.Messages.Add(message);
         context.SaveChanges();

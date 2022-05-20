@@ -1,8 +1,12 @@
 ﻿using ChatData;
+using System;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
+using System.Web;
 
 /// <summary>
-/// Summary description for DbContext
+/// Summary description for ChatDbContext
 /// </summary>
 public class ChatDbContext : DbContext
 {
