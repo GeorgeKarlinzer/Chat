@@ -12,28 +12,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatData", "ChatData\ChatData.csproj", "{EF6DA2E4-29FF-455C-9BAC-D46D1CA713D3}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "ChatWCFService(3)", "ChatWCFService\", "{541C2F7F-30C2-40EE-AF3B-50A305C9430F}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.7.2"
-		ProjectReferences = "{ef6da2e4-29ff-455c-9bac-d46d1ca713d3}|ChatData.dll;"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_62289"
-		Debug.AspNetCompiler.PhysicalPath = "ChatWCFService\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_62289\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_62289"
-		Release.AspNetCompiler.PhysicalPath = "ChatWCFService\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_62289\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "62289"
-		SlnRelativePath = "ChatWCFService\"
-		DefaultWebSiteLanguage = "Visual C#"
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatServiceHost", "ChatServiceHost\ChatServiceHost.csproj", "{EA3D14F7-1353-4348-9373-1B178D92ADE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatWCF", "ChatWCF\ChatWCF.csproj", "{C506312A-063C-424F-99D9-FB98C3496D15}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,10 +30,14 @@ Global
 		{EF6DA2E4-29FF-455C-9BAC-D46D1CA713D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF6DA2E4-29FF-455C-9BAC-D46D1CA713D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF6DA2E4-29FF-455C-9BAC-D46D1CA713D3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{541C2F7F-30C2-40EE-AF3B-50A305C9430F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{541C2F7F-30C2-40EE-AF3B-50A305C9430F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{541C2F7F-30C2-40EE-AF3B-50A305C9430F}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{541C2F7F-30C2-40EE-AF3B-50A305C9430F}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{EA3D14F7-1353-4348-9373-1B178D92ADE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA3D14F7-1353-4348-9373-1B178D92ADE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA3D14F7-1353-4348-9373-1B178D92ADE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA3D14F7-1353-4348-9373-1B178D92ADE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C506312A-063C-424F-99D9-FB98C3496D15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C506312A-063C-424F-99D9-FB98C3496D15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C506312A-063C-424F-99D9-FB98C3496D15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C506312A-063C-424F-99D9-FB98C3496D15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
