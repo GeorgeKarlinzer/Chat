@@ -68,10 +68,10 @@ namespace ChatClient
             return messages;
         }
 
-        public User Login(UserCredentials credentials)
+        public User Login(string username, string password)
         {
 
-            var queryString = $"SELECT Id, Name, LastSeen FROM Users INNER JOIN dbo.UserCredentials ON UserId = Id WHERE UserName = '{credentials.UserName}'";
+            var queryString = $"SELECT Id, Name, LastSeen FROM Users INNER JOIN dbo.UserCredentials ON UserId = Id WHERE UserName = '{username}'";
 
             using var sqlConnection = new SqlConnection(connectionString);
 

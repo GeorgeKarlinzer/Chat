@@ -24,7 +24,7 @@ namespace ChatClient.View
         {
             InitializeComponent();
 
-            DataContext = new LoginViewModel(new LocalDataLoader(), this);
+            DataContext = new LoginViewModel(new RemoteDataLoader(), this);
         }
     }
 }

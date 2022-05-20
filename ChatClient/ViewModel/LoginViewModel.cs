@@ -9,24 +9,25 @@ namespace ChatClient.ViewModel
     {
         private IDataLoader dataLoader;
         private Window dialog;
-        private UserCredentials credentials;
+        private string username;
+        private string password;
 
         public string UserName
         {
-            get => credentials.UserName;
+            get => username;
             set
             {
-                credentials.UserName = value;
+                username = value;
                 OnPropertyChanged(nameof(UserName));
             }
         }
 
-        public byte[] Password
+        public string Password
         {
-            get => credentials.PasswordHash;
+            get => password;
             set
             {
-                credentials.PasswordHash = value;
+                password = value;
                 OnPropertyChanged(nameof(Password));
             }
         }
@@ -41,7 +42,7 @@ namespace ChatClient.ViewModel
             // TODO: Update user's messages, when someone send to him
             // TODO: Add images
 
-            SessionContext.Instance.CurrentUser = dataLoader.Login(credentials);
+            SessionContext.Instance.CurrentUser = dataLoader.Login(username, password);
             if (SessionContext.Instance.CurrentUser != null)
                 dialog.DialogResult = true;
 
@@ -49,7 +50,6 @@ namespace ChatClient.ViewModel
 
         public LoginViewModel(IDataLoader dataLoader, Window dialog)
         {
-            credentials = new();
             this.dataLoader = dataLoader;
             this.dialog = dialog;
         }

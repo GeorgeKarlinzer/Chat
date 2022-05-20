@@ -12,6 +12,6 @@ namespace ChatClient
         List<User> GetFriends(User user);
         List<Message> GetMessages(User user1, User user2);
         void SendMessage(Message message);
-        User Login(UserCredentials credentials);
+        User Login(string username, string password);
     }
 }
