@@ -16,6 +16,6 @@ namespace ChatHostService.DbContexts
         }
 
 
-        public virtual DbSet<User> 
+        //public virtual DbSet<User> 
     }
 }

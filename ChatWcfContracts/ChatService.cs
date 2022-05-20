@@ -1,6 +1,7 @@
 ﻿using ChatData;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
@@ -13,27 +14,31 @@ namespace ChatWcfContracts
     {
         public void Connect(string username, string password)
         {
-            throw new NotImplementedException();
+            File.WriteAllText(@"C:\Users\kupryianau.h\Desktop\Text.txt", $"User {username} connected with password {password}");
         }
 
-        public List<User> GetFriends(User user)
+        public string GetResponse(string text)
         {
-            throw new NotImplementedException();
+            return $"This is the response for {text}";
         }
+        //public List<User> GetFriends(User user)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public List<Message> GetMessages(User user1, User user2)
-        {
-            throw new NotImplementedException();
-        }
+        //public List<Message> GetMessages(User user1, User user2)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public User Login(UserCredentials credentials)
-        {
-            throw new NotImplementedException();
-        }
+        //public User Login(UserCredentials credentials)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public void SendMessage(Message message)
-        {
-            throw new NotImplementedException();
-        }
+        //public void SendMessage(Message message)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

@@ -14,7 +14,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatData", "ChatData\ChatDa
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "ChatWcfService", "ChatWcfService\", "{554FD67D-BB3B-47CF-BC81-E0DD17993256}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.7.2"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_60806"
 		Debug.AspNetCompiler.PhysicalPath = "ChatWcfService\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_60806\"
