@@ -25,7 +25,7 @@ namespace ChatClient
         {
             InitializeComponent();
 
-            var dataLoader = new LocalDataLoader();
+            var dataLoader = new LocalDataService();
 
             DataContext = new ApplicationViewModel(dataLoader);
         }

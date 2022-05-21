@@ -10,7 +10,7 @@ using ChatData;
 
 namespace ChatClient
 {
-    internal class LocalDataLoader : IDataService
+    internal class LocalDataService : IDataService
     {
         private const string connectionString = @"data source=localhost\SQLEXPRESS;initial catalog = Chat; persist security info = True;Integrated Security = SSPI;";
 

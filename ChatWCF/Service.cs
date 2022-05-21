@@ -37,9 +37,9 @@ namespace ChatWCFService
         {
             var context = new ChatDbContext();
 
-            var credentials = context.UserCredentials.FirstOrDefault(x => x.UserName == username && x.PasswordHash.SequenceEqual(passwordHash));
+            var credentials = context.UserCredentials.FirstOrDefault(x => x.UserName == username);
 
-            if (credentials == null)
+            if (credentials == null || !credentials.PasswordHash.SequenceEqual(passwordHash))
                 return null;
 
             return context.Users.FirstOrDefault(x => x.Id == credentials.UserId);
@@ -52,10 +52,10 @@ namespace ChatWCFService
             if (context.UserCredentials.Any(x => x.UserName == username))
                 return false;
 
-            var encryption = new Encryption();
-
 
             var newUser = context.Users.Add(new User() { LastSeen = DateTime.Now, Name = name, ProfileImage = image });
+
+            context.SaveChanges();
 
             context.UserCredentials.Add(new UserCredentials() { UserId = newUser.Id, UserName = username, PasswordHash = passwordHash });
 

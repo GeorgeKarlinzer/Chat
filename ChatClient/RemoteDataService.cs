@@ -25,6 +25,8 @@ namespace ChatClient
 
         public User Login(string username, string password)
         {
+            Register("Rick123", "123", "Rick", null);
+
             var serviceClient = ServiceClient.GetConfiguredClient();
 
             var encryption = new Encryption();
