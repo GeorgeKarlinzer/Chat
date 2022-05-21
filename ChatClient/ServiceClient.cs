@@ -9,26 +9,28 @@
 //------------------------------------------------------------------------------
 
 
-using ChatClient;
+using ChatData;
+using System.ServiceModel;
+using System.Text;
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
 [System.ServiceModel.ServiceContractAttribute(ConfigurationName = "IService")]
 public interface IService
 {
     [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/IService/Login", ReplyAction = "http://tempuri.org/IService/LoginResponse")]
-    ChatData.User Login(string username, string password);
+    User Login(string username, string password);
 
     [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/IService/Register", ReplyAction = "http://tempuri.org/IService/RegisterResponse")]
     bool Register(string username, string password, string name, byte[] image);
 
     [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/IService/SendMessage", ReplyAction = "http://tempuri.org/IService/SendMessageResponse")]
-    void SendMessage(ChatData.Message message);
+    void SendMessage(Message message);
 
     [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/IService/GetFriends", ReplyAction = "http://tempuri.org/IService/GetFriendsResponse")]
-    ChatData.User[] GetFriends(ChatData.User user);
+    User[] GetFriends(User user);
 
     [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/IService/GetMessages", ReplyAction = "http://tempuri.org/IService/GetMessagesResponse")]
-    ChatData.Message[] GetMessages(ChatData.User user1, ChatData.User user2);
+    Message[] GetMessages(User user1, User user2);
 }
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
@@ -40,9 +42,39 @@ public interface IServiceChannel : IService, System.ServiceModel.IClientChannel
 [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
 public partial class ServiceClient : System.ServiceModel.ClientBase<IService>, IService
 {
+    public static ServiceClient GetConfiguredClient()
+    {
+        var endpointAddress = new EndpointAddress("http://localhost:8080/Service");
+
+        var binding = new BasicHttpBinding();
+        binding.Name = "BasicHttpBinding_IService";
+        binding.CloseTimeout = new System.TimeSpan(0, 1, 0);
+        binding.OpenTimeout = new System.TimeSpan(0, 1, 0);
+        binding.ReceiveTimeout = new System.TimeSpan(0, 1, 0);
+        binding.SendTimeout = new System.TimeSpan(0, 1, 0);
+        binding.AllowCookies = false;
+        binding.BypassProxyOnLocal = false;
+        binding.MaxBufferSize = 65536;
+        binding.MaxBufferPoolSize = 524288;
+        binding.MaxReceivedMessageSize = 65536;
+        binding.MessageEncoding = WSMessageEncoding.Text;
+        binding.TextEncoding = Encoding.UTF8;
+        binding.TransferMode = TransferMode.Buffered;
+        binding.UseDefaultWebProxy = true;
+        binding.ReaderQuotas.MaxDepth = 32;
+        binding.ReaderQuotas.MaxStringContentLength = 8192;
+        binding.ReaderQuotas.MaxArrayLength = 16384;
+        binding.Security.Mode = BasicHttpSecurityMode.None;
+        binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
+        binding.Security.Transport.ProxyCredentialType = HttpProxyCredentialType.None;
+        binding.Security.Message.ClientCredentialType = BasicHttpMessageCredentialType.UserName;
+
+        return new ServiceClient(binding, endpointAddress);
+    }
 
     public ServiceClient()
     {
+
     }
 
     public ServiceClient(string endpointConfigurationName) :
@@ -55,17 +87,17 @@ public partial class ServiceClient : System.ServiceModel.ClientBase<IService>, I
     {
     }
 
-    public ServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) :
+    public ServiceClient(string endpointConfigurationName, EndpointAddress remoteAddress) :
             base(endpointConfigurationName, remoteAddress)
     {
     }
 
-    public ServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) :
+    public ServiceClient(System.ServiceModel.Channels.Binding binding, EndpointAddress remoteAddress) :
             base(binding, remoteAddress)
     {
     }
 
-    public ChatData.User Login(string username, string password)
+    public User Login(string username, string password)
     {
         return base.Channel.Login(username, password);
     }
@@ -75,17 +107,17 @@ public partial class ServiceClient : System.ServiceModel.ClientBase<IService>, I
         return base.Channel.Register(username, password, name, image);
     }
 
-    public void SendMessage(ChatData.Message message)
+    public void SendMessage(Message message)
     {
         base.Channel.SendMessage(message);
     }
 
-    public ChatData.User[] GetFriends(ChatData.User user)
+    public User[] GetFriends(User user)
     {
         return base.Channel.GetFriends(user);
     }
 
-    public ChatData.Message[] GetMessages(ChatData.User user1, ChatData.User user2)
+    public Message[] GetMessages(User user1, User user2)
     {
         return base.Channel.GetMessages(user1, user2);
     }
