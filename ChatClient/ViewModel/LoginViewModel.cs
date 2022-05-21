@@ -7,7 +7,7 @@ namespace ChatClient.ViewModel
 {
     internal class LoginViewModel : INotifyPropertyChanged
     {
-        private IDataLoader dataLoader;
+        private IDataService dataLoader;
         private Window dialog;
         private string username;
         private string password;
@@ -48,7 +48,7 @@ namespace ChatClient.ViewModel
 
         });
 
-        public LoginViewModel(IDataLoader dataLoader, Window dialog)
+        public LoginViewModel(IDataService dataLoader, Window dialog)
         {
             this.dataLoader = dataLoader;
             this.dialog = dialog;

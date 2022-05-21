@@ -10,7 +10,7 @@ using ChatData;
 
 namespace ChatClient
 {
-    internal class LocalDataLoader : IDataLoader
+    internal class LocalDataLoader : IDataService
     {
         private const string connectionString = @"data source=localhost\SQLEXPRESS;initial catalog = Chat; persist security info = True;Integrated Security = SSPI;";
 
@@ -94,6 +94,11 @@ namespace ChatClient
                 return null;
             }
 
+        }
+
+        public bool Register(string username, string password, string name, byte[] image)
+        {
+            throw new NotImplementedException();
         }
 
         public void SendMessage(Message message)

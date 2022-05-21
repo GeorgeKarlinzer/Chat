@@ -6,21 +6,19 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 
-namespace ChatWCFService
+namespace ChatData
 {
     public class Encryption
     {
         public const int saltByteLength = 32;
 
-        public byte[] GenerateSalt()
+        public byte[] GenerateSalt(string username)
         {
-            var salt = new byte[saltByteLength];
-            var random = new Random();
+            var bytes = Encoding.ASCII.GetBytes(username);
 
-            for (int i = 0; i < saltByteLength; i++)
-            {
-                salt[i] = (byte)random.Next(0, 256);
-            }
+            var sha256 = SHA256.Create();
+
+            var salt = sha256.ComputeHash(bytes);
 
             return salt;
         }

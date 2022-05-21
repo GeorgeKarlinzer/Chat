@@ -16,7 +16,7 @@ namespace ChatClient.ViewModel
 {
     internal class ApplicationViewModel : INotifyPropertyChanged
     {
-        private IDataLoader dataLoader;
+        private IDataService dataLoader;
         private User selectedFriend;
 
         private List<User> friends;
@@ -104,7 +104,7 @@ namespace ChatClient.ViewModel
             TryLogin();
         });
 
-        public ApplicationViewModel(IDataLoader dataLoader)
+        public ApplicationViewModel(IDataService dataLoader)
         {
             this.dataLoader = dataLoader;
             Messages = new();

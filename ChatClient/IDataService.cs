@@ -7,11 +7,12 @@ using ChatData;
 
 namespace ChatClient
 {
-    internal interface IDataLoader
+    internal interface IDataService
     {
         List<User> GetFriends(User user);
         List<Message> GetMessages(User user1, User user2);
         void SendMessage(Message message);
         User Login(string username, string password);
+        bool Register(string username, string password, string name, byte[] image);
     }
 }

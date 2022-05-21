@@ -1,5 +1,6 @@
 ﻿using ChatData;
 using System;
+using System.Configuration;
 using System.Data.Entity;
 using System.ServiceModel;
 
@@ -15,10 +16,9 @@ namespace ChatWCFService
 
         public ChatDbContext()
         {
-            string connectionString = System.Configuration.ConfigurationManager.
-                ConnectionStrings["defaultConnection"].ConnectionString;
+            //string connectionString = ConfigurationManager.ConnectionStrings[0].ConnectionString;
 
-            Database.Connection.ConnectionString = connectionString;
+            Database.Connection.ConnectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=Chat;Integrated Security=SSPI;";
         }
 
         public static implicit operator ChatDbContext(ServiceHost v)

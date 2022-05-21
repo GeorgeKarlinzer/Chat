@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ChatClient
 {
-    public class RemoteDataLoader : IDataLoader
+    public class RemoteDataService : IDataService
     {
         public List<User> GetFriends(User user)
         {
@@ -27,7 +27,24 @@ namespace ChatClient
         {
             var serviceClient = ServiceClient.GetConfiguredClient();
 
-            return serviceClient.Login(username, password);
+            var encryption = new Encryption();
+
+            byte[] salt = encryption.GenerateSalt(username);
+            byte[] passwordHash = encryption.ComputeSaltedHash(password, salt);
+
+            return serviceClient.Login(username, passwordHash);
+        }
+
+        public bool Register(string username, string password, string name, byte[] image)
+        {
+            var serviceClient = ServiceClient.GetConfiguredClient();
+
+            var encryption = new Encryption();
+
+            var salt = encryption.GenerateSalt(username);
+            var passwordHash = encryption.ComputeSaltedHash(password, salt);
+
+            return serviceClient.Register(username, passwordHash, name, image);
         }
 
         public void SendMessage(Message message)

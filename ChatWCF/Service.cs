@@ -33,25 +33,19 @@ namespace ChatWCFService
             return messages;
         }
 
-        public User Login(string username, string password)
+        public User Login(string username, byte[] passwordHash)
         {
             var context = new ChatDbContext();
 
-            var credentials = context.UserCredentials.FirstOrDefault(x => x.UserName == username);
+            var credentials = context.UserCredentials.FirstOrDefault(x => x.UserName == username && x.PasswordHash.SequenceEqual(passwordHash));
 
             if (credentials == null)
-                return null;
-
-            var encryption = new Encryption();
-            byte[] hash = encryption.ComputeSaltedHash(password, credentials.Salt);
-
-            if (!hash.SequenceEqual(credentials.PasswordHash))
                 return null;
 
             return context.Users.FirstOrDefault(x => x.Id == credentials.UserId);
         }
 
-        public bool Register(string username, string password, string name, byte[] image)
+        public bool Register(string username, byte[] passwordHash, string name, byte[] image)
         {
             var context = new ChatDbContext();
 
@@ -60,13 +54,10 @@ namespace ChatWCFService
 
             var encryption = new Encryption();
 
-            byte[] salt = encryption.GenerateSalt();
 
-            byte[] saltedHash = encryption.ComputeSaltedHash(password, salt);
+            var newUser = context.Users.Add(new User() { LastSeen = DateTime.Now, Name = name, ProfileImage = image });
 
-            User newUser = context.Users.Add(new User() { LastSeen = DateTime.Now, Name = name, ProfileImage = image });
-
-            context.UserCredentials.Add(new UserCredentials() { UserId = newUser.Id, UserName = username, PasswordHash = saltedHash, Salt = salt });
+            context.UserCredentials.Add(new UserCredentials() { UserId = newUser.Id, UserName = username, PasswordHash = passwordHash });
 
             context.SaveChanges();
 

@@ -18,10 +18,10 @@ using System.Text;
 public interface IService
 {
     [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/IService/Login", ReplyAction = "http://tempuri.org/IService/LoginResponse")]
-    User Login(string username, string password);
+    User Login(string username, byte[] passwordHash);
 
     [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/IService/Register", ReplyAction = "http://tempuri.org/IService/RegisterResponse")]
-    bool Register(string username, string password, string name, byte[] image);
+    bool Register(string username, byte[] passwordHash, string name, byte[] image);
 
     [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/IService/SendMessage", ReplyAction = "http://tempuri.org/IService/SendMessageResponse")]
     void SendMessage(Message message);
@@ -97,14 +97,14 @@ public partial class ServiceClient : System.ServiceModel.ClientBase<IService>, I
     {
     }
 
-    public User Login(string username, string password)
+    public User Login(string username, byte[] passwordHash)
     {
-        return base.Channel.Login(username, password);
+        return base.Channel.Login(username, passwordHash);
     }
 
-    public bool Register(string username, string password, string name, byte[] image)
+    public bool Register(string username, byte[] passwordHash, string name, byte[] image)
     {
-        return base.Channel.Register(username, password, name, image);
+        return base.Channel.Register(username, passwordHash, name, image);
     }
 
     public void SendMessage(Message message)

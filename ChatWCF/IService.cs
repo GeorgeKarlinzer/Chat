@@ -8,10 +8,10 @@ namespace ChatWCFService
     public interface IService
     {
         [OperationContract]
-        User Login(string username, string password);
+        User Login(string username, byte[] passwordHash);
 
         [OperationContract]
-        bool Register(string username, string password, string name, byte[] image);
+        bool Register(string username, byte[] passwordHash, string name, byte[] image);
 
         [OperationContract]
         void SendMessage(Message message);
