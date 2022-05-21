@@ -17,9 +17,16 @@ namespace ChatClient.ViewModel
     internal class ApplicationViewModel : INotifyPropertyChanged
     {
         private IDataService dataLoader;
+        
         private User selectedFriend;
-
         private List<User> friends;
+        
+        private RelayCommand sendCommand;
+        private RelayCommand searchFriend;
+        private RelayCommand loadMessageCommand;
+        private RelayCommand logoutCommand;
+        private RelayCommand addFriend;
+
         public ObservableCollection<User> VisibleFriends { get; set; }
 
         public ObservableCollection<Message> Messages { get; set; }
@@ -39,7 +46,6 @@ namespace ChatClient.ViewModel
             }
         }
 
-        private RelayCommand sendCommand;
         public RelayCommand SendCommand => sendCommand ??= new(obj =>
         {
             var maxMessageLength = int.Parse(ConfigurationManager.AppSettings.Get("MaxMessageLength"));
@@ -72,7 +78,6 @@ namespace ChatClient.ViewModel
             ((TextBox)obj).Text = string.Empty;
         }, obj => !string.IsNullOrEmpty(((TextBox)obj).Text.Trim()));
 
-        private RelayCommand searchFriend;
         public RelayCommand SearchFriend => searchFriend ??= new(obj =>
         {
             var pattern = (string)obj;
@@ -83,7 +88,6 @@ namespace ChatClient.ViewModel
 
         });
 
-        private RelayCommand loadMessageCommand;
         public RelayCommand LoadMessageCommand => loadMessageCommand ??= new(obj =>
         {
             var panel = obj as Grid;
@@ -97,12 +101,17 @@ namespace ChatClient.ViewModel
                 }
         });
 
-        private RelayCommand logoutCommand;
         public RelayCommand LogoutCommand => logoutCommand ??= new(obj =>
         {
             SessionContext.Instance.CurrentUser = null;
             TryLogin();
         });
+
+        public RelayCommand AddFriend => addFriend ??= new(obj =>
+        {
+
+        });
+
 
         public ApplicationViewModel(IDataService dataLoader)
         {
@@ -115,7 +124,7 @@ namespace ChatClient.ViewModel
 
         private void TryLogin()
         {
-            if (!new LoginDialog().ShowDialog() == true)
+            if (new LoginDialog().ShowDialog() != true)
             {
                 Application.Current.Shutdown();
                 return;
@@ -131,16 +140,6 @@ namespace ChatClient.ViewModel
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
-        }
-
-        private void SendMessage()
-        {
-
-        }
-
-        private void UpdateMessageUI()
-        {
-
         }
     }
 }

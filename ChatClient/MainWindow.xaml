@@ -46,7 +46,13 @@
 
 
 
+        <!-- Col 0 Row 0 -->
         <Button Content="Log out" Command="{Binding LogoutCommand}"/>
+
+
+         
+        <!-- Col 0 Row 1 -->
+        <Button Content="Add friend" Grid.Column="0" Grid.Row="1" Command="{Binding AddFriend}"/>
 
 
 
