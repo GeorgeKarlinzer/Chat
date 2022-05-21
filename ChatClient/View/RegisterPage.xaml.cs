@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChatClient.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,19 +11,21 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ChatClient.ViewModel;
 
 namespace ChatClient.View
 {
     /// <summary>
-    /// Interaction logic for LoginDialog.xaml
+    /// Interaction logic for RegisterPage.xaml
     /// </summary>
-    public partial class LoginDialog : Window
+    public partial class RegisterPage : Page
     {
-        public LoginDialog()
+        public RegisterPage()
         {
             InitializeComponent();
+
+            DataContext = new RegisterViewModel(new RemoteDataService(), this);
         }
     }
 }

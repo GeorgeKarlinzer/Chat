@@ -35,22 +35,35 @@ namespace ChatWCFService
 
         public User Login(string username, byte[] passwordHash)
         {
+            Console.WriteLine($"Try to login\n\tusername: {username}\n\tpassword hash: {System.Text.Encoding.Default.GetString(passwordHash)}");
+
             var context = new ChatDbContext();
 
             var credentials = context.UserCredentials.FirstOrDefault(x => x.UserName == username);
 
             if (credentials == null || !credentials.PasswordHash.SequenceEqual(passwordHash))
+            {
+                Console.WriteLine("Login failed: incorrect username or password");
                 return null;
+            }
 
-            return context.Users.FirstOrDefault(x => x.Id == credentials.UserId);
+            var user = context.Users.FirstOrDefault(x => x.Id == credentials.UserId);
+
+            Console.WriteLine($"Login succeed: username: {credentials.UserName}");
+            return user;
         }
 
         public bool Register(string username, byte[] passwordHash, string name, byte[] image)
         {
+            Console.WriteLine($"Try to register\n\tusername: {username}\n\tpassword hash: {System.Text.Encoding.Default.GetString(passwordHash)}\n\tname:{name}");
+
             var context = new ChatDbContext();
 
             if (context.UserCredentials.Any(x => x.UserName == username))
+            {
+                Console.WriteLine($"Registeration failed: username is unavailabe");
                 return false;
+            }
 
 
             var newUser = context.Users.Add(new User() { LastSeen = DateTime.Now, Name = name, ProfileImage = image });
@@ -61,6 +74,7 @@ namespace ChatWCFService
 
             context.SaveChanges();
 
+            Console.WriteLine($"Registration succeed");
             return true;
         }
 

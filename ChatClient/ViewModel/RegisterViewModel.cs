@@ -1,22 +1,28 @@
-﻿using System;
+﻿using ChatData;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace ChatClient.ViewModel
 {
-    internal class LoginViewModel : INotifyPropertyChanged
+    internal class RegisterViewModel : INotifyPropertyChanged
     {
-        private IDataService dataLoader;
+        private IDataService dataService;
 
         private Page page;
 
         private string username;
         private string password;
+        private string name;
 
-        private RelayCommand loginCommand;
         private RelayCommand registerCommand;
+        private RelayCommand loginCommand;
 
 
         public string Username
@@ -39,45 +45,50 @@ namespace ChatClient.ViewModel
             }
         }
 
-        public RelayCommand LoginCommand => loginCommand ??= new(obj =>
+        public string Name
         {
-            // TODO: Custom DateTime TextBlock
-            // TODO: Logout button
-            // TODO: Sing in button
-            // TODO: Add friend button
-            // TODO: Update user's messages, when someone send to him
-            // TODO: Add images
+            get => name;
+            set
+            {
+                name = value;
+                OnPropertyChanged(nameof(Name));
+            }
+        }
 
+        public RelayCommand RegisterCommand => registerCommand ??= new(obj =>
+        {
             try
             {
-                SessionContext.Instance.CurrentUser = dataLoader.Login(username, password);
-                if (SessionContext.Instance.CurrentUser != null)
-                    Window.GetWindow(page).DialogResult = true;
+                if (dataService.Register(Username, Password, Name, null))
+                {
+                    LoginCommand.Execute(null);
+                }
                 else
-                    MessageBox.Show("Incorrect username or password");
+                {
+                    MessageBox.Show("Username is unavailable");
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Something went wrong: {ex.Message}");
             }
+        }, obj => !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Password) && !string.IsNullOrEmpty(Username));
 
-        }, obj => !string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password));
-
-        public RelayCommand RegisterCommand => registerCommand ??= new(obj =>
+        public RelayCommand LoginCommand => loginCommand ??= new(obj =>
         {
             var window = Window.GetWindow(page);
 
             var container = (Frame)window.FindName("Page");
 
-            container.Source = new(@"/View/RegisterPage.xaml", System.UriKind.Relative);
+            container.Source = new(@"/View/LoginPage.xaml", UriKind.Relative);
         });
 
-
-        public LoginViewModel(IDataService dataLoader, Page page)
+        public RegisterViewModel(IDataService dataService, Page page)
         {
-            this.dataLoader = dataLoader;
+            this.dataService = dataService;
             this.page = page;
         }
+
 
         public event PropertyChangedEventHandler? PropertyChanged;
 

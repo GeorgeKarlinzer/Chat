@@ -3,26 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:extToolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
-        xmlns:viewModels="clr-namespace:ChatClient.ViewModel"
-        d:DataContext="{d:DesignInstance Type=viewModels:LoginViewModel}"
         mc:Ignorable="d"
-        Title="LoginDialog" Height="450" Width="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="5*" />
-        </Grid.RowDefinitions>
-
-        <TextBlock FontWeight="Bold" TextAlignment="Center" Text="Username:" Grid.Row="0"/>
-        <extToolkit:WatermarkTextBox Grid.Row="1" Watermark="username..." Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBlock FontWeight="Bold" TextAlignment="Center" Text="Password:" Grid.Row="2"/>
-        <extToolkit:WatermarkTextBox Grid.Row="3" Watermark="password..." Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"/>
-        <WrapPanel Grid.Row="4" HorizontalAlignment="Right" Margin="0,15,0,0">
-            <Button IsDefault="True" Command="{Binding LoginCommand}" MinWidth="60" Margin="0,0,10,0" Content="Login"/>
-        </WrapPanel>
-    </Grid>
+        Title="LoginDialog" 
+        ResizeMode="NoResize"
+        Height="450" Width="800">
+    <DockPanel LastChildFill="True">
+        <Frame x:Name="Page" NavigationUIVisibility="Hidden" Source="/View/LoginPage.xaml" />
+    </DockPanel>
 </Window>
