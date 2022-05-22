@@ -5,12 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:extToolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
       xmlns:viewModels="clr-namespace:ChatClient.ViewModel"
-      d:DataContext="{d:DesignInstance Type=viewModels:LoginViewModel}"
+      d:DataContext="{d:DesignInstance Type=viewModels:AddFriendViewModel}"
         mc:Ignorable="d"
         Title="AddFriendDialog" Height="200" Width="400">
-    <StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
         <TextBlock TextAlignment="Center" Text="Friend's username" />
+
         <extToolkit:WatermarkTextBox Grid.Row="1" Watermark="Username..." Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
 
-    </StackPanel>
+        <Button Command="{Binding AddFriendCommand}" Grid.Row="3" MaxWidth="60" Content="Add" />
+    </Grid>
 </Window>

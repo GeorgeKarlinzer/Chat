@@ -8,9 +8,9 @@ namespace ChatClient.ViewModel
 {
     internal class LoginViewModel : INotifyPropertyChanged
     {
-        private IDataService dataLoader;
+        private readonly IDataService dataLoader;
 
-        private Page page;
+        private readonly Page page;
 
         private string username;
         private string password;
@@ -61,7 +61,7 @@ namespace ChatClient.ViewModel
                 MessageBox.Show($"Something went wrong: {ex.Message}");
             }
 
-        }, obj => !string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password));
+        }, obj => !string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password));
 
         public RelayCommand RegisterCommand => registerCommand ??= new(obj =>
         {

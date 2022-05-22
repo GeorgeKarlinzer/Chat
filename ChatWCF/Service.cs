@@ -7,6 +7,24 @@ namespace ChatWCFService
 {
     public class Service : IService
     {
+        public bool AddFriend(User user, string username)
+        {
+            var context = new ChatDbContext();
+
+            var friend = context.Users.Join(context.UserCredentials, u => u.Id,
+                                                                     c => c.UserId,
+                                                                     (u, c) => new { u, c.UserName })
+                                      .FirstOrDefault(x => x.UserName == username);
+
+            if (friend == null || friend.u.Id == user.Id)
+                return false;
+
+            context.Friends.Add(new Friend() { UserId_1 = user.Id, UserId_2 = friend.u.Id });
+            context.SaveChanges();
+
+            return true;
+        }
+
         public List<User> GetFriends(User user)
         {
             var context = new ChatDbContext();
@@ -35,7 +53,7 @@ namespace ChatWCFService
 
         public User Login(string username, byte[] passwordHash)
         {
-            Console.WriteLine($"Try to login\n\tusername: {username}\n\tpassword hash: {System.Text.Encoding.Default.GetString(passwordHash)}");
+            Console.WriteLine($"Try to login\n\tusername: {username}");
 
             var context = new ChatDbContext();
 

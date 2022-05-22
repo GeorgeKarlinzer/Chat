@@ -31,6 +31,9 @@ public interface IService
 
     [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/IService/GetMessages", ReplyAction = "http://tempuri.org/IService/GetMessagesResponse")]
     Message[] GetMessages(User user1, User user2);
+
+    [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/IService/AddFriend", ReplyAction = "http://tempuri.org/IService/AddFriendResponse")]
+    bool AddFriend(User user, string username);
 }
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
@@ -120,5 +123,10 @@ public partial class ServiceClient : System.ServiceModel.ClientBase<IService>, I
     public Message[] GetMessages(User user1, User user2)
     {
         return base.Channel.GetMessages(user1, user2);
+    }
+
+    public bool AddFriend(User user, string username)
+    {
+        return base.Channel.AddFriend(user, username);
     }
 }

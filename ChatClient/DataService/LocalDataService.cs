@@ -14,6 +14,11 @@ namespace ChatClient
     {
         private const string connectionString = @"data source=localhost\SQLEXPRESS;initial catalog = Chat; persist security info = True;Integrated Security = SSPI;";
 
+        public bool AddFriend(User user, string username)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<User> GetFriends(User user)
         {
             var friends = new List<User>();

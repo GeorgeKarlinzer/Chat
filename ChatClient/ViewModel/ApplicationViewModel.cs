@@ -16,11 +16,11 @@ namespace ChatClient.ViewModel
 {
     internal class ApplicationViewModel : INotifyPropertyChanged
     {
-        private IDataService dataLoader;
-        
+        private readonly IDataService dataLoader;
+
         private User selectedFriend;
         private List<User> friends;
-        
+
         private RelayCommand sendCommand;
         private RelayCommand searchFriend;
         private RelayCommand loadMessageCommand;
@@ -41,6 +41,12 @@ namespace ChatClient.ViewModel
                     List<Message> messages = dataLoader.GetMessages(value, SessionContext.Instance.CurrentUser);
                     Messages.Fill(messages);
                 }
+
+                if(value == null)
+                {
+                    Messages.Clear();
+                }
+
                 selectedFriend = value;
                 OnPropertyChanged(nameof(SelectedFriend));
             }
@@ -76,7 +82,7 @@ namespace ChatClient.ViewModel
             Messages.Add(message);
 
             ((TextBox)obj).Text = string.Empty;
-        }, obj => !string.IsNullOrEmpty(((TextBox)obj).Text.Trim()));
+        }, obj => !string.IsNullOrWhiteSpace(((TextBox)obj).Text.Trim()));
 
         public RelayCommand SearchFriend => searchFriend ??= new(obj =>
         {
@@ -109,7 +115,10 @@ namespace ChatClient.ViewModel
 
         public RelayCommand AddFriend => addFriend ??= new(obj =>
         {
-
+            if (new AddFriendDialog().ShowDialog() == true)
+            {
+                LoadFriends();
+            }
         });
 
 
@@ -130,9 +139,14 @@ namespace ChatClient.ViewModel
                 return;
             }
 
+            LoadFriends();
+            SelectedFriend = VisibleFriends.FirstOrDefault();
+        }
+
+        private void LoadFriends()
+        {
             friends = this.dataLoader.GetFriends(SessionContext.Instance.CurrentUser);
             VisibleFriends.Fill(friends);
-            SelectedFriend = VisibleFriends.FirstOrDefault();
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

@@ -11,9 +11,9 @@ namespace ChatClient.ViewModel
 {
     internal class AddFriendViewModel : INotifyPropertyChanged
     {
-        private IDataService dataService;
+        private readonly IDataService dataService;
 
-        private Window dialog;
+        private readonly Window dialog;
 
         private string username;
 
@@ -31,15 +31,25 @@ namespace ChatClient.ViewModel
 
         public RelayCommand AddFriendCommand => addFriendCommand ??= new(obj =>
         {
+            bool res = dataService.AddFriend(SessionContext.Instance.CurrentUser, Username);
 
-        });
+            if (!res)
+            {
+                MessageBox.Show($"Cannot add friend {Username}");
+            }
+            else
+            {
+                dialog.DialogResult = true;
+            }
+
+        }, obj => !string.IsNullOrWhiteSpace(Username));
 
         public AddFriendViewModel(IDataService dataService, Window dialog)
         {
             this.dataService = dataService;
             this.dialog = dialog;
         }
-        
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public void OnPropertyChanged([CallerMemberName] string prop = "")

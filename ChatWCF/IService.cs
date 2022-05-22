@@ -21,5 +21,8 @@ namespace ChatWCFService
 
         [OperationContract]
         List<Message> GetMessages(User user1, User user2);
+
+        [OperationContract]
+        bool AddFriend(User user, string username);
     }
 }

@@ -9,6 +9,13 @@ namespace ChatClient
 {
     public class RemoteDataService : IDataService
     {
+        public bool AddFriend(User user, string username)
+        {
+            var serviceClient = ServiceClient.GetConfiguredClient();
+
+            return serviceClient.AddFriend(user, username);
+        }
+
         public List<User> GetFriends(User user)
         {
             var serviceClient = ServiceClient.GetConfiguredClient();
