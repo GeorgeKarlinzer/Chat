@@ -1,16 +1,13 @@
 ﻿using ChatClient.View;
-using System;
+using ChatData;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Configuration;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using ChatData;
 using System.Windows;
 using System.Windows.Controls;
-using System.Configuration;
 
 namespace ChatClient.ViewModel
 {
