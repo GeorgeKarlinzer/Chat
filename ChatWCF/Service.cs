@@ -122,9 +122,8 @@ namespace ChatWCFService
             context.Messages.Add(message);
             context.SaveChanges();
 
-            return;
             if (newMessagesTasksMap.ContainsKey(message.ReceiverId))
-                newMessagesTasksMap[message.ReceiverId].SetResult(message);
+                newMessagesTasksMap[message.ReceiverId].TrySetResult(message);
         }
     }
 }

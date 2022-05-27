@@ -2,7 +2,9 @@
 using ChatWCFContracts;
 using System.Collections.Generic;
 using System.ServiceModel;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 //[System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
 //[System.ServiceModel.ServiceContractAttribute(ConfigurationName = "IService")]
@@ -103,7 +105,7 @@ public partial class ServiceClient : DuplexClientBase<IService>, IClientService
 
     public Task ListenForNewMessagesAsync(User user)
     {
-        return Task.Run(() => ListenForNewMessagesAsync(user));
+        return Task.Run(() => ListenForNewMessages(user));
     }
 
     public void ListenForNewMessages(User user)

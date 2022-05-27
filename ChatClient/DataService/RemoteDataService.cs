@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ChatClient
 {
@@ -48,8 +49,6 @@ namespace ChatClient
             var serviceClient = ServiceClient.GetConfiguredClient(InstanceContext);
 
             var task = serviceClient.ListenForNewMessagesAsync(user);
-
-            serviceClient.Close();
 
             return task;
         }

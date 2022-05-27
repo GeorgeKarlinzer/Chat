@@ -8,6 +8,7 @@ using System.Configuration;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.ServiceModel;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -16,6 +17,7 @@ namespace ChatClient.ViewModel
     internal class ApplicationViewModel : INotifyPropertyChanged, IServiceCallback
     {
         private readonly IDataService dataLoader;
+        private SynchronizationContext uiContext = SynchronizationContext.Current;
 
         private User selectedFriend;
         private List<User> friends;
@@ -129,10 +131,10 @@ namespace ChatClient.ViewModel
             VisibleFriends = new();
 
             TryLogin();
-            GetNewMessage();
+            ListenForNewMessages();
         }
 
-        private async void GetNewMessage()
+        private async void ListenForNewMessages()
         {
             await dataLoader.ListenForNewMessagesAsync(SessionContext.Instance.CurrentUser);
         }
@@ -165,7 +167,8 @@ namespace ChatClient.ViewModel
 
         public void GetNewMessage(Message message)
         {
-            Messages.Add(message);
+            uiContext.Send(x => Messages.Add(message), null);
+            ListenForNewMessages();
         }
     }
 }
