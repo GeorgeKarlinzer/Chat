@@ -1,4 +1,5 @@
-﻿using ChatData;
+﻿using ChatClient.Helper;
+using ChatData;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,22 +9,27 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace ChatClient.ViewModel
 {
     internal class RegisterViewModel : INotifyPropertyChanged
     {
         private readonly IDataService dataService;
+        private readonly IFileService fileService;
+        private readonly IDialogService dialogService;
 
         private readonly Page page;
 
         private string username;
         private string password;
         private string name;
+        private ImageSource image;
 
         private RelayCommand registerCommand;
         private RelayCommand loginCommand;
-
+        private RelayCommand loadImageCommand;
 
         public string Username
         {
@@ -55,11 +61,38 @@ namespace ChatClient.ViewModel
             }
         }
 
+        public ImageSource Image
+        {
+            get => image;
+            set
+            {
+                image = value;
+                OnPropertyChanged(nameof(Image));
+            }
+        }
+
         public RelayCommand RegisterCommand => registerCommand ??= new(obj =>
         {
             try
             {
-                if (dataService.Register(Username, Password, Name, null))
+                BitmapEncoder encoder = BitmapEncoder.Create();
+
+                byte[] bytes = null;
+                var bitmapSource = imageSource as BitmapSource;
+
+                if (bitmapSource != null)
+                {
+                    encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
+
+                    using (var stream = new MemoryStream())
+                    {
+                        encoder.Save(stream);
+                        bytes = stream.ToArray();
+                    }
+                }
+
+
+                if (dataService.Register(Username, Password, Name, Image))
                 {
                     LoginCommand.Execute(null);
                 }
@@ -86,10 +119,30 @@ namespace ChatClient.ViewModel
             container.Source = new(@"/View/LoginPage.xaml", UriKind.Relative);
         });
 
+        public RelayCommand LoadImageCommand => loadImageCommand ??= new(obj =>
+        {
+            try
+            {
+                if (dialogService.OpenFileDialog() == true)
+                {
+                     
+                    Image = fileService.OpenImage(dialogService.FilePath);
+
+                    dialogService.ShowMessage("Loaded");
+                }
+            }
+            catch (Exception ex)
+            {
+                dialogService.ShowMessage(ex.Message);
+            }
+        });
+
         public RegisterViewModel(IDataService dataService, Page page)
         {
             this.dataService = dataService;
             this.page = page;
+            this.dialogService = new DialogService();
+            this.fileService = new FileService();
         }
 
 

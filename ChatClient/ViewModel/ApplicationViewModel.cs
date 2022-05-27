@@ -101,8 +101,6 @@ namespace ChatClient.ViewModel
 
         public RelayCommand LoadMessageSideCommand => loadMessageSideCommand ??= new(obj =>
         {
-            var model = obj as LoadMessageModel;
-
             var panel = obj as Grid;
             var senderId = int.Parse((panel.Children[0] as TextBlock).Text);
 
@@ -112,16 +110,6 @@ namespace ChatClient.ViewModel
                     c.SetValue(Grid.ColumnProperty, 1);
                     c.SetValue(Grid.ColumnProperty, 1);
                 }
-
-            var a = VisualTreeHelper.GetParent(panel);
-
-            for (int i = 0; i < 15; i++)
-            {
-                a = VisualTreeHelper.GetParent(a);
-
-                if(a is ListBox)
-                { }
-            }
         });
 
         public RelayCommand LoadMessageScrollCommand => loadMessageScrollCommand ??= new(obj =>
