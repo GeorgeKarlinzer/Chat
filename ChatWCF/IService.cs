@@ -13,7 +13,7 @@ namespace ChatWCFService
         [OperationContract]
         bool Register(string username, byte[] passwordHash, string name, byte[] image);
 
-        [OperationContract]
+        [OperationContract(IsOneWay = true)]
         void SendMessage(Message message);
 
         [OperationContract]

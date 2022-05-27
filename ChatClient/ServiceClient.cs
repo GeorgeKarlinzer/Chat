@@ -47,30 +47,30 @@ public partial class ServiceClient : System.ServiceModel.ClientBase<IService>, I
 {
     public static ServiceClient GetConfiguredClient()
     {
-        var endpointAddress = new EndpointAddress("http://localhost:8080/Service");
+        var endpointAddress = new EndpointAddress("net.tcp://localhost:8090/Service");
 
-        var binding = new BasicHttpBinding();
-        binding.Name = "BasicHttpBinding_IService";
-        binding.CloseTimeout = new System.TimeSpan(0, 1, 0);
-        binding.OpenTimeout = new System.TimeSpan(0, 1, 0);
-        binding.ReceiveTimeout = new System.TimeSpan(0, 1, 0);
-        binding.SendTimeout = new System.TimeSpan(0, 1, 0);
-        binding.AllowCookies = false;
-        binding.BypassProxyOnLocal = false;
-        binding.MaxBufferSize = 65536;
-        binding.MaxBufferPoolSize = 524288;
-        binding.MaxReceivedMessageSize = 65536;
-        binding.MessageEncoding = WSMessageEncoding.Text;
-        binding.TextEncoding = Encoding.UTF8;
-        binding.TransferMode = TransferMode.Buffered;
-        binding.UseDefaultWebProxy = true;
-        binding.ReaderQuotas.MaxDepth = 32;
-        binding.ReaderQuotas.MaxStringContentLength = 8192;
-        binding.ReaderQuotas.MaxArrayLength = 16384;
-        binding.Security.Mode = BasicHttpSecurityMode.None;
-        binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
-        binding.Security.Transport.ProxyCredentialType = HttpProxyCredentialType.None;
-        binding.Security.Message.ClientCredentialType = BasicHttpMessageCredentialType.UserName;
+        var binding = new NetTcpBinding();
+        binding.Name = "NetTcpBinding_IService";
+        //binding.CloseTimeout = new System.TimeSpan(0, 1, 0);
+        //binding.OpenTimeout = new System.TimeSpan(0, 1, 0);
+        //binding.ReceiveTimeout = new System.TimeSpan(0, 1, 0);
+        //binding.SendTimeout = new System.TimeSpan(0, 1, 0);
+        //binding.AllowCookies = false;
+        //binding.BypassProxyOnLocal = false;
+        //binding.MaxBufferSize = 65536;
+        //binding.MaxBufferPoolSize = 524288;
+        //binding.MaxReceivedMessageSize = 65536;
+        //binding.MessageEncoding = WSMessageEncoding.Text;
+        //binding.TextEncoding = Encoding.UTF8;
+        //binding.TransferMode = TransferMode.Buffered;
+        //binding.UseDefaultWebProxy = true;
+        //binding.ReaderQuotas.MaxDepth = 32;
+        //binding.ReaderQuotas.MaxStringContentLength = 8192;
+        //binding.ReaderQuotas.MaxArrayLength = 16384;
+        //binding.Security.Mode = BasicHttpSecurityMode.None;
+        //binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
+        //binding.Security.Transport.ProxyCredentialType = HttpProxyCredentialType.None;
+        //binding.Security.Message.ClientCredentialType = BasicHttpMessageCredentialType.UserName;
 
         return new ServiceClient(binding, endpointAddress);
     }
