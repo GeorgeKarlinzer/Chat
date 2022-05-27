@@ -21,6 +21,7 @@ namespace ChatClient
 
         public List<User> GetFriends(User user)
         {
+            throw new NotImplementedException();
             var friends = new List<User>();
             var queryString = $"SELECT Id, Name, LastSeen FROM Users WHERE Id IN(SELECT UserId_1 FROM Friends WHERE UserId_2 = ${user.Id}) OR Id IN(SELECT UserId_2 FROM Friends WHERE UserId_1 = {user.Id})";
             using var sqlConnection = new SqlConnection(connectionString);
@@ -47,6 +48,7 @@ namespace ChatClient
 
         public List<Message> GetMessages(User user1, User user2)
         {
+            throw new NotImplementedException();
             // TODO: Not get all messages
             var messages = new List<Message>();
             var sqlConnection = new SqlConnection(connectionString);
@@ -75,7 +77,7 @@ namespace ChatClient
 
         public User Login(string username, string password)
         {
-
+            throw new NotImplementedException();
             var queryString = $"SELECT Id, Name, LastSeen FROM Users INNER JOIN dbo.UserCredentials ON UserId = Id WHERE UserName = '{username}'";
 
             using var sqlConnection = new SqlConnection(connectionString);
@@ -108,6 +110,7 @@ namespace ChatClient
 
         public void SendMessage(Message message)
         {
+            throw new NotImplementedException();
             message.Date = DateTime.Now;
 
             var queryString = $"INSERT INTO Messages (SenderId, ReceiverId, Text, Date) VALUES ({message.SenderId}, {message.ReceiverId}, N'{message.Text}', '{message.Date:yyyy-MM-dd HH:mm:ss}')";

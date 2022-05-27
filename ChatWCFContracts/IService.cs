@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.ServiceModel;
 
-namespace ChatWCFService
+namespace ChatWCFContracts
 {
-    [ServiceContract]
+    [ServiceContract(CallbackContract = typeof(IServiceCallback))]
     public interface IService
     {
         [OperationContract]

@@ -2,6 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
+using ChatWCFContracts;
+using System.Threading;
 
 namespace ChatWCFService
 {
@@ -105,6 +108,9 @@ namespace ChatWCFService
             context.Messages.Add(message);
             context.SaveChanges();
 
+            IServiceCallback callback = OperationContext.Current.GetCallbackChannel<IServiceCallback>();
+
+            callback?.GetNewMessage(message);
             // TODO: Add notifications
         }
     }

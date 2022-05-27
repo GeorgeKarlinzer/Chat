@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ChatData\ChatData.csproj" />
+    <ProjectReference Include="..\ChatWCFContracts\ChatWCFContracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>

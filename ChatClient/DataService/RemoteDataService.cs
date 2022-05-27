@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ChatClient
 {
@@ -13,21 +14,33 @@ namespace ChatClient
         {
             var serviceClient = ServiceClient.GetConfiguredClient();
 
-            return serviceClient.AddFriend(user, username);
+            bool v = serviceClient.AddFriend(user, username);
+
+            serviceClient.Close();
+
+            return v;
         }
 
         public List<User> GetFriends(User user)
         {
             var serviceClient = ServiceClient.GetConfiguredClient();
 
-            return serviceClient.GetFriends(user).ToList();
+            List<User> friends = serviceClient.GetFriends(user).ToList();
+
+            serviceClient.Close();
+
+            return friends;
         }
 
         public List<Message> GetMessages(User user1, User user2)
         {
             var serviceClient = ServiceClient.GetConfiguredClient();
 
-            return serviceClient.GetMessages(user1, user2).ToList();
+            List<Message> messages = serviceClient.GetMessages(user1, user2).ToList();
+
+            serviceClient.Close();
+
+            return messages;
         }
 
         public User Login(string username, string password)
@@ -39,7 +52,11 @@ namespace ChatClient
             byte[] salt = encryption.GenerateSalt(username);
             byte[] passwordHash = encryption.ComputeSaltedHash(password, salt);
 
-            return serviceClient.Login(username, passwordHash);
+            User user = serviceClient.Login(username, passwordHash);
+
+            serviceClient.Close();
+
+            return user;
         }
 
         public bool Register(string username, string password, string name, byte[] image)
@@ -51,7 +68,11 @@ namespace ChatClient
             var salt = encryption.GenerateSalt(username);
             var passwordHash = encryption.ComputeSaltedHash(password, salt);
 
-            return serviceClient.Register(username, passwordHash, name, image);
+            bool v = serviceClient.Register(username, passwordHash, name, image);
+
+            serviceClient.Close();
+
+            return v;
         }
 
         public void SendMessage(Message message)
@@ -59,6 +80,8 @@ namespace ChatClient
             var serviceClient = ServiceClient.GetConfiguredClient();
 
             serviceClient.SendMessage(message);
+            
+            serviceClient.Close();
         }
     }
 }
