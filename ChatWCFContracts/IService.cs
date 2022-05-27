@@ -24,5 +24,8 @@ namespace ChatWCFContracts
 
         [OperationContract]
         bool AddFriend(User user, string username);
+
+        [OperationContract]
+        void ListenForNewMessages(User user);
     }
 }

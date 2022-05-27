@@ -1,17 +1,19 @@
 ﻿using ChatClient.View;
 using ChatData;
+using ChatWCFContracts;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.ServiceModel;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace ChatClient.ViewModel
 {
-    internal class ApplicationViewModel : INotifyPropertyChanged
+    internal class ApplicationViewModel : INotifyPropertyChanged, IServiceCallback
     {
         private readonly IDataService dataLoader;
 
@@ -122,10 +124,17 @@ namespace ChatClient.ViewModel
         public ApplicationViewModel(IDataService dataLoader)
         {
             this.dataLoader = dataLoader;
+            this.dataLoader.InstanceContext = new InstanceContext(this);
             Messages = new();
             VisibleFriends = new();
 
             TryLogin();
+            GetNewMessage();
+        }
+
+        private async void GetNewMessage()
+        {
+            await dataLoader.ListenForNewMessagesAsync(SessionContext.Instance.CurrentUser);
         }
 
         private void TryLogin()
@@ -135,6 +144,7 @@ namespace ChatClient.ViewModel
                 Application.Current.Shutdown();
                 return;
             }
+
 
             LoadFriends();
             SelectedFriend = VisibleFriends.FirstOrDefault();
@@ -151,6 +161,11 @@ namespace ChatClient.ViewModel
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+        }
+
+        public void GetNewMessage(Message message)
+        {
+            Messages.Add(message);
         }
     }
 }

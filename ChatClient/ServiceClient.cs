@@ -2,7 +2,7 @@
 using ChatWCFContracts;
 using System.Collections.Generic;
 using System.ServiceModel;
-using System.Windows;
+using System.Threading.Tasks;
 
 //[System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
 //[System.ServiceModel.ServiceContractAttribute(ConfigurationName = "IService")]
@@ -32,23 +32,13 @@ public interface IServiceChannel : IService, System.ServiceModel.IClientChannel
 {
 }
 
-[CallbackBehavior(UseSynchronizationContext = false)]
-public class TestClass : IServiceCallback
-{
-    public void GetNewMessage(Message message)
-    {
-        MessageBox.Show(message.Text);
-    }
-}
-
 [System.Diagnostics.DebuggerStepThroughAttribute()]
 [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
-public partial class ServiceClient : DuplexClientBase<IService>, IService
+public partial class ServiceClient : DuplexClientBase<IService>, IClientService
 {
-    public static ServiceClient GetConfiguredClient()
+    public static ServiceClient GetConfiguredClient(InstanceContext instanceContext)
     {
         var endpointAddress = new EndpointAddress("net.tcp://localhost:8090/Service");
-        var instanceContext = new InstanceContext((IServiceCallback)(new TestClass()));
         var binding = new NetTcpBinding();
         binding.Name = "NetTcpBinding_IService";
 
@@ -109,5 +99,15 @@ public partial class ServiceClient : DuplexClientBase<IService>, IService
     public bool AddFriend(User user, string username)
     {
         return base.Channel.AddFriend(user, username);
+    }
+
+    public Task ListenForNewMessagesAsync(User user)
+    {
+        return Task.Run(() => ListenForNewMessagesAsync(user));
+    }
+
+    public void ListenForNewMessages(User user)
+    {
+        base.Channel.ListenForNewMessages(user);
     }
 }

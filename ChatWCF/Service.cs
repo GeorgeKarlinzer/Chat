@@ -5,11 +5,15 @@ using System.Linq;
 using System.ServiceModel;
 using ChatWCFContracts;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace ChatWCFService
 {
     public class Service : IService
     {
+
+        private static Dictionary<int, TaskCompletionSource<Message>> newMessagesTasksMap = new Dictionary<int, TaskCompletionSource<Message>>();
+
         public bool AddFriend(User user, string username)
         {
             var context = new ChatDbContext();
@@ -52,6 +56,16 @@ namespace ChatWCFService
                                            .ToList();
 
             return messages;
+        }
+
+        public void ListenForNewMessages(User user)
+        {
+            newMessagesTasksMap[user.Id] = new TaskCompletionSource<Message>();
+            newMessagesTasksMap[user.Id].Task.Wait();
+
+            IServiceCallback callback = OperationContext.Current.GetCallbackChannel<IServiceCallback>();
+
+            callback?.GetNewMessage(newMessagesTasksMap[user.Id].Task.Result);
         }
 
         public User Login(string username, byte[] passwordHash)
@@ -108,10 +122,9 @@ namespace ChatWCFService
             context.Messages.Add(message);
             context.SaveChanges();
 
-            IServiceCallback callback = OperationContext.Current.GetCallbackChannel<IServiceCallback>();
-
-            callback?.GetNewMessage(message);
-            // TODO: Add notifications
+            return;
+            if (newMessagesTasksMap.ContainsKey(message.ReceiverId))
+                newMessagesTasksMap[message.ReceiverId].SetResult(message);
         }
     }
 }

@@ -4,15 +4,19 @@ using System.Configuration;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using ChatData;
+using ChatWCFContracts;
 
 namespace ChatClient
 {
     internal class LocalDataService : IDataService
     {
         private const string connectionString = @"data source=localhost\SQLEXPRESS;initial catalog = Chat; persist security info = True;Integrated Security = SSPI;";
+
+        public InstanceContext InstanceContext { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public bool AddFriend(User user, string username)
         {
@@ -73,6 +77,11 @@ namespace ChatClient
             }
 
             return messages;
+        }
+
+        public Task ListenForNewMessagesAsync(User user)
+        {
+            throw new NotImplementedException();
         }
 
         public User Login(string username, string password)

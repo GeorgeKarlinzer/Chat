@@ -1,18 +1,18 @@
 ﻿using ChatData;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.ServiceModel;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace ChatClient
 {
     public class RemoteDataService : IDataService
     {
+        public InstanceContext InstanceContext { get; set; }
+
         public bool AddFriend(User user, string username)
         {
-            var serviceClient = ServiceClient.GetConfiguredClient();
+            var serviceClient = ServiceClient.GetConfiguredClient(new InstanceContext(new EmptyClientCallback()));
 
             bool v = serviceClient.AddFriend(user, username);
 
@@ -23,7 +23,7 @@ namespace ChatClient
 
         public List<User> GetFriends(User user)
         {
-            var serviceClient = ServiceClient.GetConfiguredClient();
+            var serviceClient = ServiceClient.GetConfiguredClient(new InstanceContext(new EmptyClientCallback()));
 
             List<User> friends = serviceClient.GetFriends(user).ToList();
 
@@ -34,7 +34,7 @@ namespace ChatClient
 
         public List<Message> GetMessages(User user1, User user2)
         {
-            var serviceClient = ServiceClient.GetConfiguredClient();
+            var serviceClient = ServiceClient.GetConfiguredClient(new InstanceContext(new EmptyClientCallback()));
 
             List<Message> messages = serviceClient.GetMessages(user1, user2).ToList();
 
@@ -43,9 +43,20 @@ namespace ChatClient
             return messages;
         }
 
+        public Task ListenForNewMessagesAsync(User user)
+        {
+            var serviceClient = ServiceClient.GetConfiguredClient(InstanceContext);
+
+            var task = serviceClient.ListenForNewMessagesAsync(user);
+
+            serviceClient.Close();
+
+            return task;
+        }
+
         public User Login(string username, string password)
         {
-            var serviceClient = ServiceClient.GetConfiguredClient();
+            var serviceClient = ServiceClient.GetConfiguredClient(new InstanceContext(new EmptyClientCallback()));
 
             var encryption = new Encryption();
 
@@ -61,7 +72,7 @@ namespace ChatClient
 
         public bool Register(string username, string password, string name, byte[] image)
         {
-            var serviceClient = ServiceClient.GetConfiguredClient();
+            var serviceClient = ServiceClient.GetConfiguredClient(new InstanceContext(new EmptyClientCallback()));
 
             var encryption = new Encryption();
 
@@ -77,7 +88,7 @@ namespace ChatClient
 
         public void SendMessage(Message message)
         {
-            var serviceClient = ServiceClient.GetConfiguredClient();
+            var serviceClient = ServiceClient.GetConfiguredClient(new InstanceContext(new EmptyClientCallback()));
 
             serviceClient.SendMessage(message);
             
