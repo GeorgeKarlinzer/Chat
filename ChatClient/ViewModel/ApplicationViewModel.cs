@@ -1,4 +1,5 @@
-﻿using ChatClient.View;
+﻿using ChatClient.ExtensionsMethods;
+using ChatClient.View;
 using ChatData;
 using ChatWCFContracts;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.ServiceModel;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace ChatClient.ViewModel
 {
@@ -24,9 +26,11 @@ namespace ChatClient.ViewModel
 
         private RelayCommand sendCommand;
         private RelayCommand searchFriend;
-        private RelayCommand loadMessageCommand;
+        private RelayCommand loadMessageSideCommand;
+        private RelayCommand loadMessageScrollCommand;
         private RelayCommand logoutCommand;
         private RelayCommand addFriend;
+        private RelayCommand changeMessagesCommand;
 
         public ObservableCollection<User> VisibleFriends { get; set; }
 
@@ -43,7 +47,7 @@ namespace ChatClient.ViewModel
                     Messages.Fill(messages);
                 }
 
-                if(value == null)
+                if (value == null)
                 {
                     Messages.Clear();
                 }
@@ -95,8 +99,10 @@ namespace ChatClient.ViewModel
 
         });
 
-        public RelayCommand LoadMessageCommand => loadMessageCommand ??= new(obj =>
+        public RelayCommand LoadMessageSideCommand => loadMessageSideCommand ??= new(obj =>
         {
+            var model = obj as LoadMessageModel;
+
             var panel = obj as Grid;
             var senderId = int.Parse((panel.Children[0] as TextBlock).Text);
 
@@ -106,7 +112,24 @@ namespace ChatClient.ViewModel
                     c.SetValue(Grid.ColumnProperty, 1);
                     c.SetValue(Grid.ColumnProperty, 1);
                 }
+
+            var a = VisualTreeHelper.GetParent(panel);
+
+            for (int i = 0; i < 15; i++)
+            {
+                a = VisualTreeHelper.GetParent(a);
+
+                if(a is ListBox)
+                { }
+            }
         });
+
+        public RelayCommand LoadMessageScrollCommand => loadMessageScrollCommand ??= new(obj =>
+        {
+            var listbox = obj as ListBox;
+            listbox.ScrollIntoView(listbox.Items[listbox.Items.Count - 1]);
+        });
+
 
         public RelayCommand LogoutCommand => logoutCommand ??= new(obj =>
         {
@@ -120,6 +143,14 @@ namespace ChatClient.ViewModel
             {
                 LoadFriends();
             }
+        });
+
+        public RelayCommand ChangeMessagesCommand => changeMessagesCommand ??= new(obj =>
+        {
+            var listbox = obj as ListBox;
+            var scrollViewer = listbox.GetChildOfType<ScrollViewer>();
+
+            scrollViewer.ScrollToEnd();
         });
 
 
@@ -167,7 +198,8 @@ namespace ChatClient.ViewModel
 
         public void GetNewMessage(Message message)
         {
-            uiContext.Send(x => Messages.Add(message), null);
+            if (selectedFriend.Id == message.SenderId)
+                uiContext.Send(x => Messages.Add(message), null);
             ListenForNewMessages();
         }
     }

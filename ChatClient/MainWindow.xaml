@@ -19,7 +19,7 @@
             <Setter Property="Focusable" Value="False" />
         </Style>
     </Window.Resources>
-    
+
     <Grid ShowGridLines="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
@@ -50,7 +50,7 @@
         <Button Content="Log out" Command="{Binding LogoutCommand}"/>
 
 
-         
+
         <!-- Col 0 Row 1 -->
         <Button Content="Add friend" Grid.Column="0" Grid.Row="1" Command="{Binding AddFriend}"/>
 
@@ -67,7 +67,7 @@
                 </i:Interaction.Triggers>
             </extToolkit:WatermarkTextBox>
         </StackPanel>
-        
+
 
 
         <!-- Col 2 Row 0 -->
@@ -78,14 +78,16 @@
                    Grid.Column="2" 
                    Text="{Binding SelectedFriend.Name}" />
 
-            
-        
+
+
         <!-- Col 2 Row 1 -->
         <ListBox Grid.Column="2" Grid.Row="1"
                  ItemsSource="{Binding Messages}"
                  HorizontalContentAlignment="Stretch"
                  ItemContainerStyle="{StaticResource UnselectableList}"
-                 ScrollViewer.CanContentScroll="False">
+                 ScrollViewer.CanContentScroll="False"
+                 Name="MessageList">
+
             <ListBox.ItemTemplate >
                 <DataTemplate>
                     <Grid Name="messagePanel" >
@@ -99,11 +101,12 @@
                         </Grid.RowDefinitions>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Loaded">
-                                <i:InvokeCommandAction Command="{Binding Path=DataContext.LoadMessageCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
-                                                       CommandParameter="{Binding ElementName=messagePanel}" />
+                                <i:InvokeCommandAction Command="{Binding Path=DataContext.LoadMessageSideCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" CommandParameter="{Binding ElementName=messagePanel}"/>
+
+                                <i:InvokeCommandAction Command="{Binding Path=DataContext.LoadMessageScrollCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" CommandParameter="{Binding ElementName=MessageList}"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
-                        
+
                         <TextBlock Visibility="Hidden" Text="{Binding Path=SenderId}" />
                         <TextBlock Visibility="Hidden" Text="{Binding Path=ReceiverId}" />
                         <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Path=Date}" />
@@ -122,8 +125,8 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        
-        
+
+
         <!-- Col 2 Row 2 -->
         <DockPanel x:Name="SendPanel" 
                    Grid.Column="2"
