@@ -1,16 +1,10 @@
 ﻿using ChatClient.Helper;
-using ChatData;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace ChatClient.ViewModel
 {
@@ -75,24 +69,7 @@ namespace ChatClient.ViewModel
         {
             try
             {
-                BitmapEncoder encoder = BitmapEncoder.Create();
-
-                byte[] bytes = null;
-                var bitmapSource = imageSource as BitmapSource;
-
-                if (bitmapSource != null)
-                {
-                    encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
-
-                    using (var stream = new MemoryStream())
-                    {
-                        encoder.Save(stream);
-                        bytes = stream.ToArray();
-                    }
-                }
-
-
-                if (dataService.Register(Username, Password, Name, Image))
+                if (dataService.Register(Username, Password, Name, Image.ToBytes()))
                 {
                     LoginCommand.Execute(null);
                 }
