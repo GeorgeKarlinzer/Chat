@@ -20,6 +20,8 @@ namespace ChatClient
 
         public static Bitmap ToBitmap(this BitmapSource source)
         {
+            if (source == null)
+                return null;
             int width = source.PixelWidth;
             int height = source.PixelHeight;
             int stride = width * ((source.Format.BitsPerPixel + 7) / 8);

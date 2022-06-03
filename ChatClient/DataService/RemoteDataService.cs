@@ -53,6 +53,15 @@ namespace ChatClient
             return task;
         }
 
+        public Task ListenForNewFriendsAsync(User user)
+        {
+            var serviceClient = ServiceClient.GetConfiguredClient(InstanceContext);
+
+            var task = serviceClient.ListenForNewFriendsAsync(user);
+
+            return task;
+        }
+
         public User Login(string username, string password)
         {
             var serviceClient = ServiceClient.GetConfiguredClient(new InstanceContext(new EmptyClientCallback()));

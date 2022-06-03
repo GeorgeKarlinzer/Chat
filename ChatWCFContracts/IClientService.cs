@@ -13,5 +13,8 @@ namespace ChatWCFContracts
     {
         [OperationContract]
         Task ListenForNewMessagesAsync(User user);
+
+        [OperationContract]
+        Task ListenForNewFriendsAsync(User user);
     }
 }

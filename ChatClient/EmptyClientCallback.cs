@@ -10,6 +10,11 @@ namespace ChatClient
 {
     internal class EmptyClientCallback : IServiceCallback
     {
+        public void GetNewFriend(User user)
+        {
+            throw new NotImplementedException();
+        }
+
         public void GetNewMessage(Message message)
         {
             throw new NotImplementedException();

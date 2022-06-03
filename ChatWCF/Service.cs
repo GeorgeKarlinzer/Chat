@@ -13,6 +13,7 @@ namespace ChatWCFService
     {
 
         private static Dictionary<int, TaskCompletionSource<Message>> newMessagesTasksMap = new Dictionary<int, TaskCompletionSource<Message>>();
+        private static Dictionary<int, TaskCompletionSource<User>> newFriendsTasksMap = new Dictionary<int, TaskCompletionSource<User>>();
 
         public bool AddFriend(User user, string username)
         {
@@ -23,11 +24,20 @@ namespace ChatWCFService
                                                                      (u, c) => new { u, c.UserName })
                                       .FirstOrDefault(x => x.UserName == username);
 
+            if (context.Friends.Any(x => (x.UserId_1 == user.Id && x.UserId_2 == friend.u.Id)
+                                  || (x.UserId_2 == user.Id && x.UserId_1 == friend.u.Id)))
+                return false;
+
             if (friend == null || friend.u.Id == user.Id)
                 return false;
 
-            context.Friends.Add(new Friend() { UserId_1 = user.Id, UserId_2 = friend.u.Id });
+            var newRecord = new Friend() { UserId_1 = user.Id, UserId_2 = friend.u.Id };
+
+            context.Friends.Add(newRecord);
             context.SaveChanges();
+
+            if (newFriendsTasksMap.ContainsKey(friend.u.Id))
+                newFriendsTasksMap[friend.u.Id].TrySetResult(user);
 
             return true;
         }
@@ -66,6 +76,16 @@ namespace ChatWCFService
             IServiceCallback callback = OperationContext.Current.GetCallbackChannel<IServiceCallback>();
 
             callback?.GetNewMessage(newMessagesTasksMap[user.Id].Task.Result);
+        }
+
+        public void ListenForNewFriends(User user)
+        {
+            newFriendsTasksMap[user.Id] = new TaskCompletionSource<User>();
+            newFriendsTasksMap[user.Id].Task.Wait();
+
+            IServiceCallback callback = OperationContext.Current.GetCallbackChannel<IServiceCallback>();
+
+            callback?.GetNewFriend(newFriendsTasksMap[user.Id].Task.Result);
         }
 
         public User Login(string username, byte[] passwordHash)

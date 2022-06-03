@@ -84,6 +84,11 @@ namespace ChatClient
             throw new NotImplementedException();
         }
 
+        public Task ListenForNewFriendsAsync(User user)
+        {
+            throw new NotImplementedException();
+        }
+
         public User Login(string username, string password)
         {
             throw new NotImplementedException();

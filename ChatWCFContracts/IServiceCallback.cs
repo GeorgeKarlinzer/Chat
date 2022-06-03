@@ -8,5 +8,8 @@ namespace ChatWCFContracts
     {
         [OperationContract(IsOneWay = true)]
         void GetNewMessage(Message message);
+
+        [OperationContract(IsOneWay = true)]
+        void GetNewFriend(User user);
     }
 }

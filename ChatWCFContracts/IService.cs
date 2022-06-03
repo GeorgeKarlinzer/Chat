@@ -27,5 +27,8 @@ namespace ChatWCFContracts
 
         [OperationContract]
         void ListenForNewMessages(User user);
+
+        [OperationContract]
+        void ListenForNewFriends(User user);
     }
 }

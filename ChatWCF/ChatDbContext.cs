@@ -18,8 +18,8 @@ namespace ChatWCFService
         {
             //string connectionString = ConfigurationManager.ConnectionStrings[0].ConnectionString;
 
-            Database.Connection.ConnectionString = @"Data Source=ltpol271\SQLEXPRESS;Initial Catalog=Chat;User ID=sa;Password=StandardE80";
             Database.Connection.ConnectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=Chat;Integrated Security=SSPI;";
+            Database.Connection.ConnectionString = @"Data Source=ltpol271\SQLEXPRESS;Initial Catalog=Chat;User ID=sa;Password=StandardE80";
         }
 
         public static implicit operator ChatDbContext(ServiceHost v)

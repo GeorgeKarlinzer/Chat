@@ -25,5 +25,7 @@ namespace ChatClient
         bool AddFriend(User user, string username);
 
         Task ListenForNewMessagesAsync(User user);
+
+        Task ListenForNewFriendsAsync(User user);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ChatData;
 using ChatWCFContracts;
+using System;
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading;
@@ -42,6 +43,8 @@ public partial class ServiceClient : DuplexClientBase<IService>, IClientService
     {
         var endpointAddress = new EndpointAddress("net.tcp://localhost:8090/Service");
         var binding = new NetTcpBinding();
+        binding.ReliableSession.InactivityTimeout = new TimeSpan(0, 0, 0, 0, Timeout.Infinite);
+        binding.ReliableSession.Enabled = true;
         binding.Name = "NetTcpBinding_IService";
 
         return new ServiceClient(instanceContext, binding, endpointAddress);
@@ -112,4 +115,15 @@ public partial class ServiceClient : DuplexClientBase<IService>, IClientService
     {
         base.Channel.ListenForNewMessages(user);
     }
+
+    public Task ListenForNewFriendsAsync(User user)
+    {
+        return Task.Run(() => ListenForNewFriends(user));
+    }
+
+    public void ListenForNewFriends(User user)
+    {
+        base.Channel.ListenForNewFriends(user);
+    }
+
 }

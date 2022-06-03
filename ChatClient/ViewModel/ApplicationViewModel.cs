@@ -18,6 +18,7 @@ namespace ChatClient.ViewModel
 {
     internal class ApplicationViewModel : INotifyPropertyChanged, IServiceCallback
     {
+        // TODO: Adding friend to another user if he is online
         private readonly IDataService dataLoader;
         private SynchronizationContext uiContext = SynchronizationContext.Current;
 
@@ -150,11 +151,17 @@ namespace ChatClient.ViewModel
 
             TryLogin();
             ListenForNewMessages();
+            ListenForNewFriends();
         }
 
         private async void ListenForNewMessages()
         {
             await dataLoader.ListenForNewMessagesAsync(SessionContext.Instance.CurrentUser);
+        }
+
+        private async void ListenForNewFriends()
+        {
+            await dataLoader.ListenForNewFriendsAsync(SessionContext.Instance.CurrentUser);
         }
 
         private void TryLogin()
@@ -185,9 +192,19 @@ namespace ChatClient.ViewModel
 
         public void GetNewMessage(Message message)
         {
-            if (selectedFriend.Id == message.SenderId)
+            if (selectedFriend?.Id == message.SenderId)
                 uiContext.Send(x => Messages.Add(message), null);
             ListenForNewMessages();
+        }
+
+        public void GetNewFriend(User user)
+        {
+            uiContext.Send(x =>
+            {
+                friends.Add(user);
+                VisibleFriends.Add(user);
+            }, null);
+            ListenForNewFriends();
         }
     }
 }
