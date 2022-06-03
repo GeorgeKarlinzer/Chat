@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace ChatClient.ViewModel
 {
@@ -19,7 +19,7 @@ namespace ChatClient.ViewModel
         private string username;
         private string password;
         private string name;
-        private ImageSource image;
+        private BitmapSource image;
 
         private RelayCommand registerCommand;
         private RelayCommand loginCommand;
@@ -55,7 +55,7 @@ namespace ChatClient.ViewModel
             }
         }
 
-        public ImageSource Image
+        public BitmapSource Image
         {
             get => image;
             set
@@ -69,7 +69,9 @@ namespace ChatClient.ViewModel
         {
             try
             {
-                if (dataService.Register(Username, Password, Name, Image.ToBytes()))
+                var imageBytes = Image.ToBitmap().GetBytes();
+
+                if (dataService.Register(Username, Password, Name, imageBytes))
                 {
                     LoginCommand.Execute(null);
                 }
@@ -102,7 +104,6 @@ namespace ChatClient.ViewModel
             {
                 if (dialogService.OpenFileDialog() == true)
                 {
-                     
                     Image = fileService.OpenImage(dialogService.FilePath);
 
                     dialogService.ShowMessage("Loaded");

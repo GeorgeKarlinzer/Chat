@@ -1,9 +1,9 @@
-﻿using System.Windows.Media;
+﻿using System.Windows.Media.Imaging;
 
 namespace ChatClient.Helper
 {
     internal interface IFileService
     {
-        ImageSource OpenImage(string path);
+        BitmapSource OpenImage(string path);
     }
 }

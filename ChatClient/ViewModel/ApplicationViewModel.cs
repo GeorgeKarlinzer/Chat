@@ -118,7 +118,6 @@ namespace ChatClient.ViewModel
             listbox.ScrollIntoView(listbox.Items[listbox.Items.Count - 1]);
         });
 
-
         public RelayCommand LogoutCommand => logoutCommand ??= new(obj =>
         {
             SessionContext.Instance.CurrentUser = null;
